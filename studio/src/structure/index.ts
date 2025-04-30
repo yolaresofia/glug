@@ -16,7 +16,7 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
     .items([
       // Highlight the homepage as a standalone item
       S.listItem()
-        .title('Homepage')
+        .title('Home')
         .child(
           S.document()
             .schemaType('page') // Use the `page` schema for the homepage
@@ -36,7 +36,7 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
 
       // Settings Singleton
       S.listItem()
-        .title('Site Settings')
+        .title('Configuración del sitio')
         .child(S.document().schemaType('settings').documentId('siteSettings'))
         .icon(CogIcon),
     ])

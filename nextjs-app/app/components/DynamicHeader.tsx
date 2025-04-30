@@ -102,17 +102,13 @@ export default function DynamicHeader() {
 
       <Link href="/" className="flex items-center">
         {currentLogo && (
-          <img
+          <Image
             src={currentLogo}
-            alt="alttext"
+            alt="Logo"
+            width={160}
+            height={50}
+            className="rounded-xl md:pr-20 w-auto h-auto transition-opacity duration-300"
           />
-          // <Image
-          //   src={currentLogo}
-          //   alt="Logo"
-          //   width={160}
-          //   height={50}
-          //   className="rounded-xl md:pr-20 w-auto h-auto transition-opacity duration-300"
-          // />
         )}
       </Link>
     </>

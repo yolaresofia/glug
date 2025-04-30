@@ -8,13 +8,13 @@ import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const settings = defineType({
   name: 'settings',
-  title: 'Settings',
+  title: 'Configuración del sitio',
   type: 'document',
   icon: CogIcon,
   fields: [
     defineField({
       name: 'title',
-      description: 'This field is the title of your site.',
+      description: 'Este campo es el título de su sitio.',
       title: 'Title',
       type: 'string',
       validation: (rule) => rule.required(),
@@ -200,7 +200,7 @@ export const settings = defineType({
   preview: {
     prepare() {
       return {
-        title: 'Settings',
+        title: 'Configuración del sitio',
       }
     },
   },

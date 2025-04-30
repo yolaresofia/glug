@@ -5,8 +5,10 @@ import PageBuilderPage from "@/app/components/PageBuilder";
 import { sanityFetch } from "@/sanity/lib/live";
 import { getPageQuery, pagesSlugs } from "@/sanity/lib/queries";
 import { Page as PageType } from "@/sanity.types";
-import { client } from "@/sanity/lib/client";
+import { client, previewClient } from "@/sanity/lib/client";
 import { redirect } from "next/navigation";
+import { draftMode } from "next/headers";
+import EnableVisualEditing from "../components/EnableVisualEditing";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -15,7 +17,6 @@ type Props = {
 export async function generateStaticParams() {
   const { data } = await sanityFetch({
     query: pagesSlugs,
-    // Use the published perspective in generateStaticParams
     perspective: "published",
     stega: false,
   });
@@ -33,28 +34,32 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   return {
     title: page?.name,
     description: page?.heading,
-  } satisfies Metadata;
+  };
 }
 
 export default async function Page(props: Props) {
   const params = await props.params;
-  if (params.slug === "404") return null;
-  if (params.slug === "500") return null;
+  if (params.slug === "404" || params.slug === "500") return null;
 
-  const page = await client.fetch(
+  const { isEnabled: isDraft } = await draftMode();
+  const sanityClient = isDraft ? previewClient : client;
+
+  const page = await sanityClient.fetch(
     '*[_type == "page" && slug.current == $slug][0]',
     { slug: params.slug }
   );
 
   if (!page?._id) redirect("/");
+
   return (
     <div
-      className={`font-teachers bg-[${page.pageBackgroundColor.hex}]`}
+      className={`font-teachers bg-[${page.pageBackgroundColor?.hex ?? "#ffffff"}]`}
     >
       <Head>
         <title>{page.heading}</title>
       </Head>
       <PageBuilderPage page={page as PageType} />
+      {isDraft && <EnableVisualEditing />}
     </div>
   );
 }
