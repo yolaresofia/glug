@@ -41,7 +41,6 @@ export default defineConfig({
 
   projectId,
   dataset,
-
   plugins: [
     presentationTool({
       previewUrl: {
