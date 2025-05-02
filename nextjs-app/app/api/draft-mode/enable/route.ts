@@ -1,19 +1,23 @@
-import { defineEnableDraftMode } from "next-sanity/draft-mode";
-import { client } from "@/sanity/lib/client";
-import { token } from "@/sanity/lib/token";
+// nextjs-app/app/api/draft-mode/enable/route.ts
 
-export const GET = async (req: Request) => {
-  const url = new URL(req.url);
-  const cleanUrl = url.origin + url.pathname;
+import { draftMode } from "next/headers";
+import { NextResponse } from "next/server";
 
-  const newRequest = new Request(cleanUrl, {
-    headers: req.headers,
-    method: req.method,
-  });
+// Opcional: proteger con tu propio secret
+const expectedSecret = process.env.SANITY_PREVIEW_SECRET;
 
-  const handler = defineEnableDraftMode({
-    client: client.withConfig({ token }),
-  });
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const secret = searchParams.get("secret");
+  const redirectUrl = searchParams.get("redirect") || "/";
 
-  return handler.GET(newRequest);
-};
+  // Si querés validar secret:
+  if (expectedSecret && secret !== expectedSecret) {
+    return new NextResponse("Invalid secret", { status: 401 });
+  }
+
+  const dm = await draftMode();
+  dm.enable();
+
+  return NextResponse.redirect(new URL(redirectUrl, request.url));
+}
