@@ -9,7 +9,7 @@
     "start": "sanity start",
     "prebuild": "npm run extract-types",
     "build": "sanity build",
-    "deploy": "sanity deploy",
+    "deploy": "dotenv -e .env.production -- sanity deploy",
     "extract-types": "sanity schema extract --enforce-required-fields"
   },
   "keywords": [
@@ -35,6 +35,7 @@
     "@sanity/codegen": "^3.75.0",
     "@sanity/eslint-config-studio": "^4.0.0",
     "@types/react": "^18.3.12",
+    "dotenv-cli": "^8.0.0",
     "eslint": "^8.6.0",
     "prettier": "^3.3.3",
     "typescript": "^5.6.3"
