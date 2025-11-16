@@ -67,7 +67,8 @@ export default function Footer({ block }: FooterProps) {
           {footer?.fourthColumnFooter?.map((link, index) => {
             if (!link || !link.linkType) return null;
             if (link.linkType === "href" && link.href && link.urlTitle) {
-              if (link.urlTitle.toLowerCase() === "reservas") {
+              const urlTitle = typeof link.urlTitle === 'string' ? link.urlTitle : '';
+              if (urlTitle.toLowerCase() === "reservas") {
                 return (
                   <button
                     key={index}
@@ -116,7 +117,7 @@ export default function Footer({ block }: FooterProps) {
           rel="noopener noreferrer"
           className="h-full"
         >
-         ¿Quieres trabajar con nosotros?
+         {footer?.workForUs || '¿Quieres trabajar con nosotros?'}
         </a>
       </div>
       {isModalOpen && modalUrl && (

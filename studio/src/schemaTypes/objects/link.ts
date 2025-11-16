@@ -23,7 +23,7 @@ export const link = defineType({
     defineField({
       name: 'urlTitle',
       title: 'URL Title',
-      type: 'string',
+      type: 'localeString',
       hidden: ({ parent }) => parent?.linkType !== 'href',
     }),
     defineField({
@@ -72,8 +72,8 @@ export const link = defineType({
   preview: {
     select: {
       linkType: 'linkType',
-      pageTitle: 'page.name',
-      urlTitle: 'urlTitle',
+      pageTitle: 'page.name.es',
+      urlTitle: 'urlTitle.es',
     },
     prepare({ linkType, pageTitle, urlTitle }) {
       let title = 'Untitled Link';

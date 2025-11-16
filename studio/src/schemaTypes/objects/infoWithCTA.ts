@@ -71,13 +71,13 @@ export const infoWithCTA = defineType({
     defineField({
       name: 'firstColumnText',
       title: 'Texto Primer Columna',
-      type: 'blockContent',
+      type: 'localeBlockContent',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'secondColumnText',
       title: 'Texto Segunda Columna',
-      type: 'blockContent',
+      type: 'localeBlockContent',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -93,7 +93,7 @@ export const infoWithCTA = defineType({
         defineField({
           name: 'text',
           title: 'Texto del botón',
-          type: 'string',
+          type: 'localeString',
           validation: (Rule) => Rule.required(),
         }),
         defineField({

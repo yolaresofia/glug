@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { linkResolver } from "@/sanity/lib/utils";
 
@@ -13,8 +16,13 @@ export default function ResolvedLink({
   children,
   className,
 }: ResolvedLinkProps) {
+  const pathname = usePathname();
+
+  // Extract current locale from pathname
+  const locale = pathname?.split('/')[1] || 'es';
+
   // resolveLink() is used to determine the type of link and return the appropriate URL.
-  const resolvedLink = linkResolver(link);
+  const resolvedLink = linkResolver(link, locale);
 
   if (typeof resolvedLink === "string") {
     return (

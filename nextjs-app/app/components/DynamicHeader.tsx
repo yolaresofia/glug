@@ -18,22 +18,24 @@ export default function DynamicHeader() {
   const [darkLogoUrl, setDarkLogoUrl] = useState("");
   const pathname = usePathname();
 
-  const getData = async () => {
-    const data = await client.fetch(settingsQuery);
-    setLogoUrl(
-      (data?.mainNavigation?.lightLogo as UrlObject | undefined)?.url || ""
-    );
-    setDarkLogoUrl(
-      (data?.mainNavigation?.darkLogo as UrlObject | undefined)?.url || ""
-    );
-    setCurrentLogo(
-      (data?.mainNavigation?.lightLogo as UrlObject | undefined)?.url || ""
-    );
-  };
-
   useEffect(() => {
+    const getData = async () => {
+      // Extract locale from pathname (e.g., /es/about -> es)
+      const locale = pathname?.split('/')[1] || 'es';
+      const data = await client.fetch(settingsQuery, { locale });
+      setLogoUrl(
+        (data?.mainNavigation?.lightLogo as UrlObject | undefined)?.url || ""
+      );
+      setDarkLogoUrl(
+        (data?.mainNavigation?.darkLogo as UrlObject | undefined)?.url || ""
+      );
+      setCurrentLogo(
+        (data?.mainNavigation?.lightLogo as UrlObject | undefined)?.url || ""
+      );
+    };
+
     getData();
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     let observer: IntersectionObserver | null = null;
@@ -92,6 +94,9 @@ export default function DynamicHeader() {
     };
   }, [pathname, darkLogoUrl, logoUrl]);
 
+  // Extract locale from pathname for the home link
+  const locale = pathname?.split('/')[1] || 'es';
+
   return (
     <>
       <style>{`
@@ -100,7 +105,7 @@ export default function DynamicHeader() {
         }
       `}</style>
 
-      <Link href="/" className="flex items-center">
+      <Link href={`/${locale}`} className="flex items-center">
         {currentLogo && (
           <Image
             src={currentLogo}

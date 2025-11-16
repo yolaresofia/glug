@@ -25,7 +25,7 @@ export function resolveOpenGraphImage(image: any, width = 1200, height = 627) {
 }
 
 // Depending on the type of link, we need to fetch the corresponding page, post, or URL.  Otherwise return null.
-export function linkResolver(link: Link | undefined) {
+export function linkResolver(link: Link | undefined, locale: string = 'es') {
   if (!link) return null;
 
   // If linkType is not set but href is, lets set linkType to "href".  This comes into play when pasting links into the portable text editor because a link type is not assumed.
@@ -35,10 +35,19 @@ export function linkResolver(link: Link | undefined) {
 
   switch (link.linkType) {
     case "href":
-      return link.href || null;
+      const href = link.href || null;
+      // If it's an external link (starts with http), return as is
+      if (href && href.startsWith("http")) {
+        return href;
+      }
+      // If it's an internal link, prepend the locale
+      if (href) {
+        return `/${locale}${href}`;
+      }
+      return null;
     case "page":
       if (link?.page && typeof link.page === "string") {
-        return `/${link.page}`;
+        return `/${locale}/${link.page}`;
       }
     default:
       return null;

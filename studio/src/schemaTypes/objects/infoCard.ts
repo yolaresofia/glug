@@ -72,13 +72,13 @@ export const infoCard = defineType({
     defineField({
       name: 'title',
       title: 'Título',
-      type: 'string',
+      type: 'localeString',
     }),
     defineField({
       name: 'text',
       title: 'Texto',
       description: 'Opcional',
-      type: 'blockContent',
+      type: 'localeBlockContent',
     }),
     defineField({
       name: 'textColor',
@@ -94,19 +94,18 @@ export const infoCard = defineType({
       name: 'imageAltText',
       title: 'Texto alternativo de la imagen',
       description: 'Esencial para accesibilidad y SEO',
-      type: 'string',
+      type: 'localeString',
     }),
   ],
   preview: {
     select: {
-      title: 'title',
-      subtitle: 'description',
-      media: 'images.0',
+      title: 'title.es',
+      media: 'image',
     },
-    prepare({title, subtitle, media}) {
+    prepare({title, media}) {
       return {
-        title: title || 'Bloque de imagen y texto',
-        subtitle: subtitle || 'No hay texto',
+        title: title || 'Info Card',
+        subtitle: 'Info Card',
         media: media || ImageIcon,
       }
     },

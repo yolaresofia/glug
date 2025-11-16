@@ -744,14 +744,9 @@ export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
-// Query: *[_type == "settings"][0]{  ...,  mainNavigation {    ...,    "darkLogo": darkLogo.asset->,    "lightLogo": lightLogo.asset->,    navLinks[]{      ...,      page->    }  },  footer {    secondColumnFooter {      address,      email,      phoneNumber    },    thirdColumnFooter {      instagram    },    fourthColumnFooter[] {      ...,      page->    },    fifthColumnFooter {      ...,      page->    }  }}
+// Query: *[_type == "settings"][0]{  "title": title[$locale],  mainNavigation {    ...,    "darkLogo": darkLogo.asset->,    "lightLogo": lightLogo.asset->,    navLinks[]{      ...,      "urlTitle": urlTitle[$locale],      page-> {        "name": name[$locale],        slug      }    }  },  footer {    secondColumnFooter {      address {        ...,        "urlTitle": urlTitle[$locale],        page-> {          "name": name[$locale],          slug        }      },      email,      phoneNumber    },    thirdColumnFooter {      instagram {        ...,        "urlTitle": urlTitle[$locale],        page-> {          "name": name[$locale],          slug        }      }    },    fourthColumnFooter[] {      ...,      "urlTitle": urlTitle[$locale],      page-> {        "name": name[$locale],        slug      }    },    "fifthColumnFooter": fifthColumnFooter[$locale],    "workForUs": workForUs[$locale]  },  description,  ogImage}
 export type SettingsQueryResult = {
-  _id: string;
-  _type: "settings";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
+  title: Array<string>;
   mainNavigation: {
     lightLogo: {
       _id: string;
@@ -803,81 +798,60 @@ export type SettingsQueryResult = {
       _key: string;
       _type: "link";
       linkType?: "href" | "page";
-      urlTitle?: string;
+      urlTitle: Array<string> | null;
       href?: string;
       page: {
-        _id: string;
-        _type: "page";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        name: string;
-        slug?: Slug;
-        heading: string;
-        subheading?: string;
-        pageBackgroundColor?: Color;
-        pageBuilder?: Array<{
-          _key: string;
-        } & CallToAction | {
-          _key: string;
-        } & FeatureCard | {
-          _key: string;
-        } & ImageTextBlock | {
-          _key: string;
-        } & InfoCard | {
-          _key: string;
-        } & InfoWithCTA | {
-          _key: string;
-        } & MainHero>;
+        name: Array<string>;
+        slug: Slug | null;
       } | null;
       openType?: "modal" | "newTab";
     }>;
   } | null;
   footer: {
     secondColumnFooter: {
-      address: Link | null;
+      address: {
+        _type: "link";
+        linkType?: "href" | "page";
+        urlTitle: Array<string> | null;
+        href?: string;
+        page: {
+          name: Array<string>;
+          slug: Slug | null;
+        } | null;
+        openType?: "modal" | "newTab";
+      } | null;
       email: string | null;
       phoneNumber: string | null;
     } | null;
     thirdColumnFooter: {
-      instagram: Link | null;
+      instagram: {
+        _type: "link";
+        linkType?: "href" | "page";
+        urlTitle: Array<string> | null;
+        href?: string;
+        page: {
+          name: Array<string>;
+          slug: Slug | null;
+        } | null;
+        openType?: "modal" | "newTab";
+      } | null;
     } | null;
     fourthColumnFooter: Array<{
       _key: string;
       _type: "link";
       linkType?: "href" | "page";
-      urlTitle?: string;
+      urlTitle: Array<string> | null;
       href?: string;
       page: {
-        _id: string;
-        _type: "page";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        name: string;
-        slug?: Slug;
-        heading: string;
-        subheading?: string;
-        pageBackgroundColor?: Color;
-        pageBuilder?: Array<{
-          _key: string;
-        } & CallToAction | {
-          _key: string;
-        } & FeatureCard | {
-          _key: string;
-        } & ImageTextBlock | {
-          _key: string;
-        } & InfoCard | {
-          _key: string;
-        } & InfoWithCTA | {
-          _key: string;
-        } & MainHero>;
+        name: Array<string>;
+        slug: Slug | null;
       } | null;
       openType?: "modal" | "newTab";
     }> | null;
-    fifthColumnFooter: null;
+    fifthColumnFooter: Array<string> | null;
+    workForUs: null;
   } | null;
-  description?: Array<{
+  description: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -894,8 +868,8 @@ export type SettingsQueryResult = {
     level?: number;
     _type: "block";
     _key: string;
-  }>;
-  ogImage?: {
+  }> | null;
+  ogImage: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -907,28 +881,28 @@ export type SettingsQueryResult = {
     alt?: string;
     metadataBase?: string;
     _type: "image";
-  };
+  } | null;
 } | null;
 // Variable: getPageQuery
-// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    pageBackgroundColor,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {        ...,          link {      ...,      _type == "link" => {        "page": page->slug.current,        "post": post->slug.current      }  },      },      _type == "mainHero" => {        ...      }    },  }
+// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    "name": name[$locale],    slug,    "heading": heading[$locale],    "subheading": subheading[$locale],    pageBackgroundColor,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {        "heading": heading[$locale],        "text": text[$locale],        "buttonText": buttonText[$locale],          link {      ...,      _type == "link" => {        "urlTitle": urlTitle[$locale],        "page": page->slug.current,        "post": post->slug.current      }  },      },      _type == "infoWithCTA" => {        ...,        "firstColumnText": firstColumnText[$locale],        "secondColumnText": secondColumnText[$locale],        cta {          ...,          "text": text[$locale],          link {            ...,            "urlTitle": urlTitle[$locale],            page-> {              "name": name[$locale],              slug            }          }        }      },      _type == "mainHero" => {        ...      }    },  }
 export type GetPageQueryResult = {
   _id: string;
   _type: "page";
-  name: string;
+  name: Array<string>;
   slug: Slug | null;
-  heading: string;
-  subheading: string | null;
+  heading: Array<string>;
+  subheading: Array<string> | null;
   pageBackgroundColor: Color | null;
   pageBuilder: Array<{
     _key: string;
     _type: "callToAction";
-    heading: string;
-    text?: string;
-    buttonText?: string;
+    heading: Array<string>;
+    text: Array<string> | null;
+    buttonText: Array<string> | null;
     link: {
       _type: "link";
       linkType?: "href" | "page";
-      urlTitle?: string;
+      urlTitle: Array<string> | null;
       href?: string;
       page: string | null;
       openType?: "modal" | "newTab";
@@ -1192,11 +1166,21 @@ export type GetPageQueryResult = {
       _key: string;
     }>;
     textColor?: Color;
-    cta?: {
-      text: string;
-      link: Link;
+    cta: {
+      text: Array<string>;
+      link: {
+        _type: "link";
+        linkType?: "href" | "page";
+        urlTitle: Array<string> | null;
+        href?: string;
+        page: {
+          name: Array<string>;
+          slug: Slug | null;
+        } | null;
+        openType?: "modal" | "newTab";
+      };
       variant?: "buttonDark" | "buttonLight";
-    };
+    } | null;
   } | {
     _key: string;
     _type: "mainHero";
@@ -1237,8 +1221,8 @@ export type PagesSlugsResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"settings\"][0]{\n  ...,\n  mainNavigation {\n    ...,\n    \"darkLogo\": darkLogo.asset->,\n    \"lightLogo\": lightLogo.asset->,\n    navLinks[]{\n      ...,\n      page->\n    }\n  },\n  footer {\n    secondColumnFooter {\n      address,\n      email,\n      phoneNumber\n    },\n    thirdColumnFooter {\n      instagram\n    },\n    fourthColumnFooter[] {\n      ...,\n      page->\n    },\n    fifthColumnFooter {\n      ...,\n      page->\n    }\n  }\n}": SettingsQueryResult;
-    "\n  *[_type == 'page' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    pageBackgroundColor,\n    \"pageBuilder\": pageBuilder[]{\n      ...,\n      _type == \"callToAction\" => {\n        ...,\n        \n  link {\n      ...,\n      _type == \"link\" => {\n        \"page\": page->slug.current,\n        \"post\": post->slug.current\n      }\n  }\n,\n      },\n      _type == \"mainHero\" => {\n        ...\n      }\n    },\n  }\n": GetPageQueryResult;
+    "*[_type == \"settings\"][0]{\n  \"title\": title[$locale],\n  mainNavigation {\n    ...,\n    \"darkLogo\": darkLogo.asset->,\n    \"lightLogo\": lightLogo.asset->,\n    navLinks[]{\n      ...,\n      \"urlTitle\": urlTitle[$locale],\n      page-> {\n        \"name\": name[$locale],\n        slug\n      }\n    }\n  },\n  footer {\n    secondColumnFooter {\n      address {\n        ...,\n        \"urlTitle\": urlTitle[$locale],\n        page-> {\n          \"name\": name[$locale],\n          slug\n        }\n      },\n      email,\n      phoneNumber\n    },\n    thirdColumnFooter {\n      instagram {\n        ...,\n        \"urlTitle\": urlTitle[$locale],\n        page-> {\n          \"name\": name[$locale],\n          slug\n        }\n      }\n    },\n    fourthColumnFooter[] {\n      ...,\n      \"urlTitle\": urlTitle[$locale],\n      page-> {\n        \"name\": name[$locale],\n        slug\n      }\n    },\n    \"fifthColumnFooter\": fifthColumnFooter[$locale],\n    \"workForUs\": workForUs[$locale]\n  },\n  description,\n  ogImage\n}": SettingsQueryResult;
+    "\n  *[_type == 'page' && slug.current == $slug][0]{\n    _id,\n    _type,\n    \"name\": name[$locale],\n    slug,\n    \"heading\": heading[$locale],\n    \"subheading\": subheading[$locale],\n    pageBackgroundColor,\n    \"pageBuilder\": pageBuilder[]{\n      ...,\n      _type == \"callToAction\" => {\n        \"heading\": heading[$locale],\n        \"text\": text[$locale],\n        \"buttonText\": buttonText[$locale],\n        \n  link {\n      ...,\n      _type == \"link\" => {\n        \"urlTitle\": urlTitle[$locale],\n        \"page\": page->slug.current,\n        \"post\": post->slug.current\n      }\n  }\n,\n      },\n      _type == \"infoWithCTA\" => {\n        ...,\n        \"firstColumnText\": firstColumnText[$locale],\n        \"secondColumnText\": secondColumnText[$locale],\n        cta {\n          ...,\n          \"text\": text[$locale],\n          link {\n            ...,\n            \"urlTitle\": urlTitle[$locale],\n            page-> {\n              \"name\": name[$locale],\n              slug\n            }\n          }\n        }\n      },\n      _type == \"mainHero\" => {\n        ...\n      }\n    },\n  }\n": GetPageQueryResult;
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
   }
 }

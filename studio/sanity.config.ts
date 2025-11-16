@@ -18,17 +18,20 @@ const dataset = process.env.SANITY_STUDIO_DATASET || 'production'
 
 const SANITY_STUDIO_PREVIEW_URL = process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:3000'
 
+// Default locale for preview URLs
+const DEFAULT_LOCALE = 'es'
+
 const homeLocation = {
   title: 'Home',
-  href: '/',
+  href: `/${DEFAULT_LOCALE}`,
 } satisfies DocumentLocation
 
-function resolveHref(documentType?: string, slug?: string): string | undefined {
+function resolveHref(documentType?: string, slug?: string, locale: string = DEFAULT_LOCALE): string | undefined {
   switch (documentType) {
     case 'page':
-      return slug === '/' ? '/' : `/${slug}`
+      return slug === '/' ? `/${locale}` : `/${locale}/${slug}`
     case 'post':
-      return slug ? `/posts/${slug}` : undefined
+      return slug ? `/${locale}/posts/${slug}` : undefined
     default:
       console.warn('Invalid document type:', documentType)
       return undefined
@@ -52,15 +55,15 @@ export default defineConfig({
       resolve: {
         mainDocuments: defineDocuments([
           {
-            route: '/',
+            route: '/:locale',
             filter: `_type == "page" && slug.current == "/"`,
           },
           {
-            route: '/:slug',
+            route: '/:locale/:slug',
             filter: `_type == "page" && slug.current == $slug || _id == $slug`,
           },
           {
-            route: '/posts/:slug',
+            route: '/:locale/posts/:slug',
             filter: `_type == "post" && slug.current == $slug || _id == $slug`,
           },
         ]),
@@ -79,8 +82,16 @@ export default defineConfig({
             resolve: (doc) => ({
               locations: [
                 {
-                  title: doc?.name || 'Untitled',
-                  href: resolveHref('page', doc?.slug)!,
+                  title: `${doc?.name || 'Untitled'} (ES)`,
+                  href: resolveHref('page', doc?.slug, 'es')!,
+                },
+                {
+                  title: `${doc?.name || 'Untitled'} (CA)`,
+                  href: resolveHref('page', doc?.slug, 'ca')!,
+                },
+                {
+                  title: `${doc?.name || 'Untitled'} (EN)`,
+                  href: resolveHref('page', doc?.slug, 'en')!,
                 },
               ],
             }),

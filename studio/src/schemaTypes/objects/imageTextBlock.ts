@@ -73,7 +73,7 @@ export const imageTextBlock = defineType({
       name: "text",
       title: "Texto",
       description: "Opcional",
-      type: "blockContent",
+      type: "localeBlockContent",
     }),
     defineField({
       name: "textColor",
@@ -113,38 +113,36 @@ export const imageTextBlock = defineType({
     defineField({
       name: "titleImage1",
       title: "Título Imagen 1",
-      type: "string",
+      type: "localeString",
       hidden: ({ parent }) => parent?.layout !== "rightImageHoverText",
     }),
     defineField({
       name: "textImage1",
       title: "Texto Imagen 1",
-      type: "blockContent",
+      type: "localeBlockContent",
       hidden: ({ parent }) => parent?.layout !== "rightImageHoverText",
     }),
     defineField({
       name: "titleImage2",
       title: "Título Imagen 2",
-      type: "string",
+      type: "localeString",
       hidden: ({ parent }) => parent?.layout !== "rightImageHoverText",
     }),
     defineField({
       name: "textImage2",
       title: "Texto Imagen 2",
-      type: "blockContent",
+      type: "localeBlockContent",
       hidden: ({ parent }) => parent?.layout !== "rightImageHoverText",
     }),
   ],
   preview: {
     select: {
-      title: "title",
-      subtitle: "description",
       media: "images.0",
     },
-    prepare({ title, subtitle, media }) {
+    prepare({ media }) {
       return {
-        title: title || "Bloque de imagen y texto",
-        subtitle: subtitle || "No hay texto",
+        title: "Bloque de imagen y texto",
+        subtitle: "Image & Text Block",
         media: media || ImageIcon,
       };
     },

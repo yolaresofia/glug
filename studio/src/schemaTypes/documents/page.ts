@@ -15,7 +15,7 @@ export const page = defineType({
     defineField({
       name: 'name',
       title: 'Nombre',
-      type: 'string',
+      type: 'localeString',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -23,20 +23,20 @@ export const page = defineType({
       title: 'Link',
       type: 'slug',
       options: {
-        source: 'name',
+        source: 'name.es',
         maxLength: 96,
       },
     }),
     defineField({
       name: 'heading',
       title: 'Heading',
-      type: 'string',
+      type: 'localeString',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'subheading',
       title: 'Subtítulo',
-      type: 'string',
+      type: 'localeString',
     }),
     defineField({
       name: 'pageBackgroundColor',
@@ -69,4 +69,16 @@ export const page = defineType({
       },
     }),
   ],
+  preview: {
+    select: {
+      title: 'name.es',
+      subtitle: 'slug.current',
+    },
+    prepare({ title, subtitle }) {
+      return {
+        title: title || 'Sin título',
+        subtitle: subtitle || '/',
+      };
+    },
+  },
 })

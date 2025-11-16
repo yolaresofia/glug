@@ -24,18 +24,18 @@ export const callToAction = defineType({
     defineField({
       name: 'heading',
       title: 'Heading',
-      type: 'string',
+      type: 'localeString',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'text',
       title: 'Texto',
-      type: 'text',
+      type: 'localeString',
     }),
     defineField({
       name: 'buttonText',
       title: 'Texto del botón',
-      type: 'string',
+      type: 'localeString',
     }),
     defineField({
       name: 'link',
@@ -45,13 +45,13 @@ export const callToAction = defineType({
   ],
   preview: {
     select: {
-      title: 'heading',
+      title: 'heading.es',
     },
     prepare(selection) {
       const {title} = selection
 
       return {
-        title: title,
+        title: title || 'Call to Action',
         subtitle: 'Call to Action',
       }
     },

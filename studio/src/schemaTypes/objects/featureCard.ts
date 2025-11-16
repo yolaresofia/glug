@@ -81,14 +81,13 @@ export const featureCard = defineType({
     defineField({
       name: 'title',
       title: 'Título',
-      type: 'string',
+      type: 'localeString',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'description',
       title: 'Descripción',
-      type: 'text',
-      rows: 3,
+      type: 'localeString',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -105,7 +104,7 @@ export const featureCard = defineType({
         defineField({
           name: 'text',
           title: 'Texto del botón',
-          type: 'string',
+          type: 'localeString',
           validation: (Rule) => Rule.required(),
         }),
         defineField({
@@ -143,7 +142,7 @@ export const featureCard = defineType({
   ],
   preview: {
     select: {
-      title: 'title',
+      title: 'title.es',
       subtitle: 'price',
       media: 'illustration',
     },

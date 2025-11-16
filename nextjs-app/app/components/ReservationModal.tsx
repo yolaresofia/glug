@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 
 type ReservationModalProps = {
   isOpen: boolean;
@@ -27,8 +28,8 @@ export default function ReservationModal({
 
   if (!isOpen || !url) return null;
 
-  return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-5">
+  return createPortal(
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[99999] px-5">
       <div className="relative bg-white w-full max-w-3xl min-h-[85vh] max-h-[85vh] rounded-lg shadow-lg flex flex-col">
         <button
           onClick={onClose}
@@ -63,6 +64,7 @@ export default function ReservationModal({
           />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { SettingsQueryResult } from "@/sanity.types";
 import MenuIcon from "./MenuIcon";
 import Image from "next/image";
@@ -20,6 +21,10 @@ export default function MobileMenu({
 }: MobileMenuProps) {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const pathname = usePathname();
+
+  // Extract current locale from pathname
+  const locale = pathname?.split('/')[1] || 'es';
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -51,7 +56,7 @@ export default function MobileMenu({
         transition-transform duration-300 ${isAnimating && !isExiting ? "translate-x-0" : "translate-x-full"}`}
     >
       <div className="flex justify-between items-start">
-        <Link href="/">
+        <Link href={`/${locale}`}>
           <Image
             // @ts-ignore
             src={block?.mainNavigation?.darkLogo?.url as string}
@@ -69,6 +74,12 @@ export default function MobileMenu({
       <nav className="flex flex-col items-end space-y-8 text-[#541B1E] text-5xl">
         {block?.mainNavigation?.navLinks?.map((link, i) => {
           if (!link) return null;
+
+          // Handle urlTitle which might be a string or array due to type generation
+          const urlTitle = typeof link.urlTitle === 'string' ? link.urlTitle : (Array.isArray(link.urlTitle) ? link.urlTitle[0] : 'Untitled Link');
+          // Handle page name which might be a string or array
+          const pageName = typeof link.page?.name === 'string' ? link.page.name : (Array.isArray(link.page?.name) ? link.page.name[0] : 'Untitled Page');
+
           if (link.linkType === "href" && link.openType === "modal") {
             return (
               <button
@@ -76,29 +87,38 @@ export default function MobileMenu({
                 onClick={() => handleModalClick(link.href as string)}
                 className="hover:opacity-70 transition-opacity"
               >
-                {link.urlTitle || "Untitled Link"}
+                {urlTitle}
               </button>
             );
           }
-          return (
-            <a
-              key={i}
-              href={
-                // @ts-ignore
-                link?.linkType === "navLink"
-                  ? // @ts-ignore
-                    `/${link?.navLink}`
-                  : // @ts-ignore
-                    `/${link?.page?.slug?.current}`
-              }
-              className="hover:opacity-70 transition-opacity"
-              onClick={handleClose}
-            >
-              {/* @ts-ignore */}
-              {link?.linkType === "navLink" ? link?.navLink : link?.page?.name}
-              {link.urlTitle ?? ""}
-            </a>
-          );
+
+          if (link.linkType === "href") {
+            return (
+              <a
+                key={i}
+                href={link.href?.startsWith("http") ? link.href : `/${locale}${link.href || ""}`}
+                className="hover:opacity-70 transition-opacity"
+                onClick={handleClose}
+              >
+                {urlTitle}
+              </a>
+            );
+          }
+
+          if (link.linkType === "page" && link?.page?.slug?.current) {
+            return (
+              <a
+                key={i}
+                href={`/${locale}/${link.page.slug.current}`}
+                className="hover:opacity-70 transition-opacity"
+                onClick={handleClose}
+              >
+                {pageName}
+              </a>
+            );
+          }
+
+          return null;
         })}
       </nav>
 

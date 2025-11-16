@@ -16,7 +16,7 @@ export const settings = defineType({
       name: 'title',
       description: 'Este campo es el título de su sitio.',
       title: 'Title',
-      type: 'string',
+      type: 'localeString',
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -119,11 +119,17 @@ export const settings = defineType({
         defineField({
           name: 'fifthColumnFooter',
           title: 'Quinta columna footer',
-          type: 'string',
+          type: 'localeString',
+        }),
+        defineField({
+          name: 'workForUs',
+          title: 'Texto "Trabaja con nosotros"',
+          type: 'localeString',
+          description: 'Texto que aparece en el footer invitando a trabajar con la empresa',
         }),
       ],
     }),
-    
+
     defineField({
       name: 'description',
       description: 'Used both for the <meta> description tag for SEO, and the site subheader.',

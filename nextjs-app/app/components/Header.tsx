@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { SettingsQueryResult, Settings as SettingsType } from "@/sanity.types";
-import { PortableText, PortableTextBlock } from "next-sanity";
+
 import DynamicHeader from "./DynamicHeader";
+import LanguageSwitcher from "./LanguageSwitcher";
 import MenuIcon from "./MenuIcon";
 import MobileMenu from "./MobileMenu";
 import ReservationModal from "./ReservationModal";
@@ -17,6 +19,10 @@ export default function Header({ block }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalUrl, setModalUrl] = useState<string | null>(null);
+  const pathname = usePathname();
+
+  // Extract current locale from pathname
+  const locale = pathname?.split('/')[1] || 'es';
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
@@ -53,7 +59,7 @@ export default function Header({ block }: HeaderProps) {
         <DynamicHeader />
         <div className="flex w-1/2">
           <div
-            className="text-left pl-12 leading-tight w-[200px] pl-12"
+            className="text-left pl-12 leading-tight w-[200px]"
           >
             <a
               href={block?.footer?.secondColumnFooter?.address?.href}
@@ -80,11 +86,15 @@ export default function Header({ block }: HeaderProps) {
           </div>
         </div>
 
-        <nav className="flex justify-end gap-11 w-1/2 font-semibold">
+        <nav className="flex justify-end gap-11 w-1/2 font-semibold items-center">
           {block?.mainNavigation?.navLinks?.map((link, i) => {
             if (!link) return null;
 
             const isExternalLink = link?.href?.startsWith("http");
+            // Handle urlTitle which might be a string or array due to type generation
+            const urlTitle = typeof link.urlTitle === 'string' ? link.urlTitle : (Array.isArray(link.urlTitle) ? link.urlTitle[0] : 'Untitled Link');
+            // Handle page name which might be a string or array
+            const pageName = typeof link.page?.name === 'string' ? link.page.name : (Array.isArray(link.page?.name) ? link.page.name[0] : 'Untitled Page');
 
             if (link.linkType === "href" && link.openType === "modal") {
               return (
@@ -93,7 +103,7 @@ export default function Header({ block }: HeaderProps) {
                   onClick={() => handleOpenModal(link?.href as string)}
                   className="hover:opacity-70 transition-opacity"
                 >
-                  {link.urlTitle || "Untitled Link"}
+                  {urlTitle}
                 </button>
               );
             }
@@ -107,15 +117,15 @@ export default function Header({ block }: HeaderProps) {
                   rel="noopener noreferrer"
                   className="hover:opacity-70 transition-opacity"
                 >
-                  {link.urlTitle || "Untitled Link"}
+                  {urlTitle}
                 </a>
               ) : (
                 <Link
                   key={i}
-                  href={link.href || ""}
+                  href={`/${locale}${link.href || ""}`}
                   className="hover:opacity-70 transition-opacity"
                 >
-                  {link.urlTitle || "Untitled Link"}
+                  {urlTitle}
                 </Link>
               );
             }
@@ -124,15 +134,16 @@ export default function Header({ block }: HeaderProps) {
               return (
                 <Link
                   key={i}
-                  href={`/${link.page.slug.current}`}
+                  href={`/${locale}/${link.page.slug.current}`}
                   className="hover:opacity-70 transition-opacity"
                 >
-                  {link.page.name || "Untitled Page"}
+                  {pageName}
                 </Link>
               );
             }
             return null;
           })}
+          <LanguageSwitcher />
         </nav>
       </header>
 
