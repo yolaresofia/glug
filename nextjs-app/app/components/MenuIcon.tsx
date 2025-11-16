@@ -58,7 +58,7 @@ const MenuIcon: React.FC<SvgIconProps> = ({
   }, []);
 
   // If menu is open, force color to #712538, otherwise keep theme logic
-  const colorTheme = isOpen ? "#712538" : theme === "darkTheme" ? "#fff" : color;
+  const colorTheme = isOpen ? "#712538" : theme === "lightTheme" ? "#712538" : "#ECE8E2";
 
   return isOpen ? (
     <svg

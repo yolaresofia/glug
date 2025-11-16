@@ -45,6 +45,7 @@ export default function ImageTextBlock({ block }: ImageTextBlockProps) {
           <div className="flex flex-col lg:flex-row justify-end items-end lg:pl-40 gap-8">
             <img
               src={urlForImage(block.images[1])?.url() as string}
+              alt=""
               className="lg:rounded-xl rounded-3xl lg:w-1/2 w-full h-[700px] object-cover anim"
             />
             <div className="flex flex-col lg:w-1/2 w-full font-semibold anim">
@@ -52,6 +53,7 @@ export default function ImageTextBlock({ block }: ImageTextBlockProps) {
               <div className="relative w-full h-[700px] mt-8">
                 <img
                   src={urlForImage(block.images[0])?.url() as string}
+                  alt=""
                   className="lg:rounded-xl rounded-3xl w-full h-full object-cover"
                 />
               </div>

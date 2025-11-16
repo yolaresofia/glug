@@ -11,6 +11,7 @@ export const settingsQuery = defineQuery(`*[_type == "settings"][0]{
     ...,
     "darkLogo": darkLogo.asset->,
     "lightLogo": lightLogo.asset->,
+    "michelinLogo": michelinLogo.asset->,
     navLinks[]{
       ...,
       ${localeField('urlTitle')},

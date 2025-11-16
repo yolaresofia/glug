@@ -37,6 +37,12 @@ export const settings = defineType({
           type: 'image',
         }),
         defineField({
+          name: 'michelinLogo',
+          title: 'Logo Michelin',
+          type: 'image',
+          description: 'Logo de Michelin que aparece en el footer debajo del logo principal',
+        }),
+        defineField({
           name: 'secondColumnNav',
           title: 'Segunda Columna Navegación',
           type: 'blockContent',

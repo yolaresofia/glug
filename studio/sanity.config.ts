@@ -4,6 +4,7 @@ import {schemaTypes} from './src/schemaTypes'
 import {structure} from './src/structure'
 import {unsplashImageAsset} from 'sanity-plugin-asset-source-unsplash'
 import { vercelDeployTool } from 'sanity-plugin-vercel-deploy'
+import {visionTool} from '@sanity/vision'
 import {
   presentationTool,
   defineDocuments,
@@ -104,6 +105,7 @@ export default defineConfig({
     }),
     vercelDeployTool(),
     unsplashImageAsset(),
+    visionTool(),
     assist(),
     colorInput(),
   ],

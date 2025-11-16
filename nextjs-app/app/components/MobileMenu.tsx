@@ -7,6 +7,7 @@ import MenuIcon from "./MenuIcon";
 import Image from "next/image";
 import { PortableText } from "next-sanity";
 import Link from "next/link";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 type MobileMenuProps = {
   block: SettingsQueryResult;
@@ -71,7 +72,7 @@ export default function MobileMenu({
         </button>
       </div>
 
-      <nav className="flex flex-col items-end space-y-8 text-[#541B1E] text-5xl">
+      <nav className="flex flex-col items-end space-y-8 text-[#541B1E] text-5xl"> 
         {block?.mainNavigation?.navLinks?.map((link, i) => {
           if (!link) return null;
 
@@ -85,7 +86,7 @@ export default function MobileMenu({
               <button
                 key={i}
                 onClick={() => handleModalClick(link.href as string)}
-                className="hover:opacity-70 transition-opacity"
+                className="hover:opacity-70 transition-opacity text-right"
               >
                 {urlTitle}
               </button>
@@ -97,7 +98,7 @@ export default function MobileMenu({
               <a
                 key={i}
                 href={link.href?.startsWith("http") ? link.href : `/${locale}${link.href || ""}`}
-                className="hover:opacity-70 transition-opacity"
+                className="hover:opacity-70 transition-opacity text-right"
                 onClick={handleClose}
               >
                 {urlTitle}
@@ -110,7 +111,7 @@ export default function MobileMenu({
               <a
                 key={i}
                 href={`/${locale}/${link.page.slug.current}`}
-                className="hover:opacity-70 transition-opacity"
+                className="hover:opacity-70 transition-opacity text-right"
                 onClick={handleClose}
               >
                 {pageName}
@@ -120,6 +121,9 @@ export default function MobileMenu({
 
           return null;
         })}
+        <div className="text-sm pt-4">
+          <LanguageSwitcher />
+        </div>
       </nav>
 
       <div className="text-right text-[#541B1E] pb-12 flex flex-col space-y-2 text-base max-w-44 ml-auto">

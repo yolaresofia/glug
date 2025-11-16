@@ -41,7 +41,6 @@ export default function Header({ block }: HeaderProps) {
           <MenuIcon
             width={40}
             height={22}
-            color="#712538"
             isOpen={isMenuOpen}
           />
         </button>
