@@ -744,7 +744,7 @@ export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
-// Query: *[_type == "settings"][0]{  "title": title[$locale],  mainNavigation {    ...,    "darkLogo": darkLogo.asset->,    "lightLogo": lightLogo.asset->,    "michelinLogo": michelinLogo.asset->,    navLinks[]{      ...,      "urlTitle": urlTitle[$locale],      page-> {        "name": name[$locale],        slug      }    }  },  footer {    secondColumnFooter {      address {        ...,        "urlTitle": urlTitle[$locale],        page-> {          "name": name[$locale],          slug        }      },      email,      phoneNumber    },    thirdColumnFooter {      instagram {        ...,        "urlTitle": urlTitle[$locale],        page-> {          "name": name[$locale],          slug        }      }    },    fourthColumnFooter[] {      ...,      "urlTitle": urlTitle[$locale],      page-> {        "name": name[$locale],        slug      }    },    "fifthColumnFooter": fifthColumnFooter[$locale],    "workForUs": workForUs[$locale]  },  description,  ogImage}
+// Query: *[_type == "settings"][0]{  "title": title[$locale],  mainNavigation {    ...,    "darkLogo": darkLogo.asset->,    "lightLogo": lightLogo.asset->,    "michelinLogo": michelinLogo.asset->,    "sustainableGastronomyLogo": sustainableGastronomyLogo.asset->,    navLinks[]{      ...,      "urlTitle": urlTitle[$locale],      page-> {        "name": name[$locale],        slug      }    }  },  footer {    secondColumnFooter {      address {        ...,        "urlTitle": urlTitle[$locale],        page-> {          "name": name[$locale],          slug        }      },      email,      phoneNumber    },    thirdColumnFooter {      instagram {        ...,        "urlTitle": urlTitle[$locale],        page-> {          "name": name[$locale],          slug        }      }    },    fourthColumnFooter[] {      ...,      "urlTitle": urlTitle[$locale],      page-> {        "name": name[$locale],        slug      }    },    "fifthColumnFooter": fifthColumnFooter[$locale],    "workForUs": workForUs[$locale]  },  description,  ogImage}
 export type SettingsQueryResult = {
   title: Array<string>;
   mainNavigation: {
@@ -807,6 +807,7 @@ export type SettingsQueryResult = {
       openType?: "modal" | "newTab";
     }>;
     michelinLogo: null;
+    sustainableGastronomyLogo: null;
   } | null;
   footer: {
     secondColumnFooter: {
@@ -1215,14 +1216,14 @@ export type GetPageQueryResult = {
 // Variable: pagesSlugs
 // Query: *[_type == "page" && defined(slug.current)]  {"slug": slug.current}
 export type PagesSlugsResult = Array<{
-  slug: string | null;
+  slug: string;
 }>;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"settings\"][0]{\n  \"title\": title[$locale],\n  mainNavigation {\n    ...,\n    \"darkLogo\": darkLogo.asset->,\n    \"lightLogo\": lightLogo.asset->,\n    \"michelinLogo\": michelinLogo.asset->,\n    navLinks[]{\n      ...,\n      \"urlTitle\": urlTitle[$locale],\n      page-> {\n        \"name\": name[$locale],\n        slug\n      }\n    }\n  },\n  footer {\n    secondColumnFooter {\n      address {\n        ...,\n        \"urlTitle\": urlTitle[$locale],\n        page-> {\n          \"name\": name[$locale],\n          slug\n        }\n      },\n      email,\n      phoneNumber\n    },\n    thirdColumnFooter {\n      instagram {\n        ...,\n        \"urlTitle\": urlTitle[$locale],\n        page-> {\n          \"name\": name[$locale],\n          slug\n        }\n      }\n    },\n    fourthColumnFooter[] {\n      ...,\n      \"urlTitle\": urlTitle[$locale],\n      page-> {\n        \"name\": name[$locale],\n        slug\n      }\n    },\n    \"fifthColumnFooter\": fifthColumnFooter[$locale],\n    \"workForUs\": workForUs[$locale]\n  },\n  description,\n  ogImage\n}": SettingsQueryResult;
+    "*[_type == \"settings\"][0]{\n  \"title\": title[$locale],\n  mainNavigation {\n    ...,\n    \"darkLogo\": darkLogo.asset->,\n    \"lightLogo\": lightLogo.asset->,\n    \"michelinLogo\": michelinLogo.asset->,\n    \"sustainableGastronomyLogo\": sustainableGastronomyLogo.asset->,\n    navLinks[]{\n      ...,\n      \"urlTitle\": urlTitle[$locale],\n      page-> {\n        \"name\": name[$locale],\n        slug\n      }\n    }\n  },\n  footer {\n    secondColumnFooter {\n      address {\n        ...,\n        \"urlTitle\": urlTitle[$locale],\n        page-> {\n          \"name\": name[$locale],\n          slug\n        }\n      },\n      email,\n      phoneNumber\n    },\n    thirdColumnFooter {\n      instagram {\n        ...,\n        \"urlTitle\": urlTitle[$locale],\n        page-> {\n          \"name\": name[$locale],\n          slug\n        }\n      }\n    },\n    fourthColumnFooter[] {\n      ...,\n      \"urlTitle\": urlTitle[$locale],\n      page-> {\n        \"name\": name[$locale],\n        slug\n      }\n    },\n    \"fifthColumnFooter\": fifthColumnFooter[$locale],\n    \"workForUs\": workForUs[$locale]\n  },\n  description,\n  ogImage\n}": SettingsQueryResult;
     "\n  *[_type == 'page' && slug.current == $slug][0]{\n    _id,\n    _type,\n    \"name\": name[$locale],\n    slug,\n    \"heading\": heading[$locale],\n    \"subheading\": subheading[$locale],\n    pageBackgroundColor,\n    \"pageBuilder\": pageBuilder[]{\n      ...,\n      _type == \"callToAction\" => {\n        \"heading\": heading[$locale],\n        \"text\": text[$locale],\n        \"buttonText\": buttonText[$locale],\n        \n  link {\n      ...,\n      _type == \"link\" => {\n        \"urlTitle\": urlTitle[$locale],\n        \"page\": page->slug.current,\n        \"post\": post->slug.current\n      }\n  }\n,\n      },\n      _type == \"infoWithCTA\" => {\n        ...,\n        \"firstColumnText\": firstColumnText[$locale],\n        \"secondColumnText\": secondColumnText[$locale],\n        cta {\n          ...,\n          \"text\": text[$locale],\n          link {\n            ...,\n            \"urlTitle\": urlTitle[$locale],\n            page-> {\n              \"name\": name[$locale],\n              slug\n            }\n          }\n        }\n      },\n      _type == \"mainHero\" => {\n        ...\n      }\n    },\n  }\n": GetPageQueryResult;
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
   }

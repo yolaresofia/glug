@@ -1,11 +1,6 @@
 import {CogIcon} from '@sanity/icons'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
-/**
- * Settings schema Singleton.  Singletons are single documents that are displayed not in a collection, handy for things like site settings and other global configurations.
- * Learn more: https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list
- */
-
 export const settings = defineType({
   name: 'settings',
   title: 'Configuración del sitio',
@@ -41,6 +36,12 @@ export const settings = defineType({
           title: 'Logo Michelin',
           type: 'image',
           description: 'Logo de Michelin que aparece en el footer debajo del logo principal',
+        }),
+        defineField({
+          name: 'sustainableGastronomyLogo',
+          title: 'Logo Sustainable Gastronomy',
+          type: 'image',
+          description: 'Logo de Sustainable Gastronomy que aparece en el footer debajo del logo Michelin',
         }),
         defineField({
           name: 'secondColumnNav',

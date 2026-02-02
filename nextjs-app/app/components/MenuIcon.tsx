@@ -19,17 +19,16 @@ const MenuIcon: React.FC<SvgIconProps> = ({
 
   useEffect(() => {
     let observer: IntersectionObserver | null = null;
+    let footerObserver: IntersectionObserver | null = null;
 
     const updateNavbarTheme = () => {
       const sections = document.querySelectorAll("section");
-      let found = false;
 
       sections.forEach((section) => {
         const rect = section.getBoundingClientRect();
         if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
           const sectionType = section.getAttribute("data-section");
           setTheme(sectionType as string);
-          found = true;
         }
       });
     };
@@ -52,8 +51,25 @@ const MenuIcon: React.FC<SvgIconProps> = ({
       .querySelectorAll("section")
       .forEach((section) => observer!.observe(section));
 
+    // Footer observer - footer has dark background so use darkTheme (light icon)
+    const footer = document.querySelector("footer");
+    if (footer) {
+      footerObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              setTheme("darkTheme");
+            }
+          }
+        },
+        { rootMargin: "-50px 0px 0px 0px", threshold: 0.1 }
+      );
+      footerObserver.observe(footer);
+    }
+
     return () => {
       if (observer) observer.disconnect();
+      if (footerObserver) footerObserver.disconnect();
     };
   }, []);
 

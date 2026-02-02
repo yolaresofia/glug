@@ -23,15 +23,26 @@ export default function DynamicHeader() {
       // Extract locale from pathname (e.g., /es/about -> es)
       const locale = pathname?.split('/')[1] || 'es';
       const data = await client.fetch(settingsQuery, { locale });
-      setLogoUrl(
-        (data?.mainNavigation?.lightLogo as UrlObject | undefined)?.url || ""
-      );
-      setDarkLogoUrl(
-        (data?.mainNavigation?.darkLogo as UrlObject | undefined)?.url || ""
-      );
-      setCurrentLogo(
-        (data?.mainNavigation?.lightLogo as UrlObject | undefined)?.url || ""
-      );
+      const lightLogo = (data?.mainNavigation?.lightLogo as UrlObject | undefined)?.url || "";
+      const darkLogo = (data?.mainNavigation?.darkLogo as UrlObject | undefined)?.url || "";
+
+      setLogoUrl(lightLogo);
+      setDarkLogoUrl(darkLogo);
+
+      // Check current section theme to set correct initial logo
+      const sections = document.querySelectorAll("section");
+      let initialLogo = lightLogo; // Default for dark backgrounds
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+          const sectionType = section.getAttribute("data-section");
+          if (sectionType === "lightTheme") {
+            initialLogo = darkLogo;
+            setTextColor("#712538");
+          }
+        }
+      });
+      setCurrentLogo(initialLogo);
     };
 
     getData();
@@ -39,6 +50,7 @@ export default function DynamicHeader() {
 
   useEffect(() => {
     let observer: IntersectionObserver | null = null;
+    let footerObserver: IntersectionObserver | null = null;
 
     const updateNavbarTheme = () => {
       const sections = document.querySelectorAll("section");
@@ -89,8 +101,26 @@ export default function DynamicHeader() {
       .querySelectorAll("section")
       .forEach((section) => observer!.observe(section));
 
+    // Footer observer - footer has dark background so use light logo
+    const footer = document.querySelector("footer");
+    if (footer) {
+      footerObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              setTextColor("#ECE8E2");
+              setCurrentLogo(logoUrl);
+            }
+          }
+        },
+        { rootMargin: "-50px 0px 0px 0px", threshold: 0.1 }
+      );
+      footerObserver.observe(footer);
+    }
+
     return () => {
       if (observer) observer.disconnect();
+      if (footerObserver) footerObserver.disconnect();
     };
   }, [pathname, darkLogoUrl, logoUrl]);
 

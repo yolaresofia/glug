@@ -57,7 +57,7 @@ export default function MobileMenu({
         transition-transform duration-300 ${isAnimating && !isExiting ? "translate-x-0" : "translate-x-full"}`}
     >
       <div className="flex justify-between items-start">
-        <Link href={`/${locale}`}>
+        <Link href={`/${locale}`} onClick={handleClose}>
           <Image
             // @ts-ignore
             src={block?.mainNavigation?.darkLogo?.url as string}
