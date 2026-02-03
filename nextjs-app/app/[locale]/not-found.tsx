@@ -1,16 +1,19 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { redirect } from "next/navigation";
+import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function NotFound() {
   const pathname = usePathname();
+  const router = useRouter();
 
   // Extract locale from pathname, default to 'es'
   const locale = pathname?.split('/')[1] || 'es';
 
-  // Redirect to the localized homepage
-  redirect(`/${locale}`);
+  useEffect(() => {
+    // Redirect to the localized homepage
+    router.replace(`/${locale}`);
+  }, [locale, router]);
 
-  return null; // Prevent rendering anything
+  return <div>Redirecting...</div>;
 }

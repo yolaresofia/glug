@@ -1,6 +1,7 @@
 interface SvgIconProps {
   width?: number;
   height?: number;
+  color?: string;
   className?: string;
   isOpen?: boolean;
   theme?: string;
@@ -9,13 +10,15 @@ interface SvgIconProps {
 const MenuIcon: React.FC<SvgIconProps> = ({
   width = 35,
   height = 19,
+  color,
   className,
   isOpen = false,
   theme = "darkTheme",
 }) => {
+  // If color is explicitly passed, use it
   // If menu is open, force burgundy (#712538)
   // Otherwise use theme: lightTheme = burgundy, darkTheme = cream
-  const colorTheme = isOpen ? "#712538" : theme === "lightTheme" ? "#712538" : "#ECE8E2";
+  const colorTheme = color ?? (isOpen ? "#712538" : theme === "lightTheme" ? "#712538" : "#ECE8E2");
 
   return isOpen ? (
     <svg
