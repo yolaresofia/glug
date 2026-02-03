@@ -19,6 +19,7 @@ export default function Header({ block }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalUrl, setModalUrl] = useState<string | null>(null);
+  const [headerTheme, setHeaderTheme] = useState("darkTheme");
   const pathname = usePathname();
 
   // Extract current locale from pathname
@@ -36,12 +37,13 @@ export default function Header({ block }: HeaderProps) {
   return (
     <div>
       <header className="lg:hidden flex justify-between w-full fixed top-8 left-0 px-8 items-center z-50">
-        <DynamicHeader />
+        <DynamicHeader onThemeChange={setHeaderTheme} />
         <button onClick={toggleMenu} aria-label="Toggle menu">
           <MenuIcon
             width={40}
             height={22}
             isOpen={isMenuOpen}
+            theme={headerTheme}
           />
         </button>
       </header>

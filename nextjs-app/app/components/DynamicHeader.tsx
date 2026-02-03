@@ -11,7 +11,11 @@ type UrlObject = {
   url: string | undefined;
 };
 
-export default function DynamicHeader() {
+type DynamicHeaderProps = {
+  onThemeChange?: (theme: string) => void;
+};
+
+export default function DynamicHeader({ onThemeChange }: DynamicHeaderProps) {
   const [textColor, setTextColor] = useState("#ECE8E2");
   const [currentLogo, setCurrentLogo] = useState("");
   const [logoUrl, setLogoUrl] = useState("");
@@ -63,9 +67,11 @@ export default function DynamicHeader() {
           if (sectionType === "lightTheme") {
             setTextColor("#712538");
             setCurrentLogo(darkLogoUrl);
+            onThemeChange?.("lightTheme");
           } else {
             setTextColor("#ECE8E2");
             setCurrentLogo(logoUrl);
+            onThemeChange?.("darkTheme");
           }
           found = true;
         }
@@ -74,6 +80,7 @@ export default function DynamicHeader() {
       if (!found) {
         setTextColor("#ECE8E2");
         setCurrentLogo(logoUrl);
+        onThemeChange?.("darkTheme");
       }
     };
 
@@ -87,9 +94,11 @@ export default function DynamicHeader() {
             if (sectionType === "lightTheme") {
               setTextColor("#712538");
               setCurrentLogo(darkLogoUrl);
+              onThemeChange?.("lightTheme");
             } else {
               setTextColor("#ECE8E2");
               setCurrentLogo(logoUrl);
+              onThemeChange?.("darkTheme");
             }
           }
         }
@@ -110,6 +119,7 @@ export default function DynamicHeader() {
             if (entry.isIntersecting) {
               setTextColor("#ECE8E2");
               setCurrentLogo(logoUrl);
+              onThemeChange?.("darkTheme");
             }
           }
         },

@@ -1,79 +1,20 @@
-import { useEffect, useState } from "react";
-
 interface SvgIconProps {
   width?: number;
   height?: number;
-  color?: string;
   className?: string;
   isOpen?: boolean;
+  theme?: string;
 }
 
 const MenuIcon: React.FC<SvgIconProps> = ({
   width = 35,
   height = 19,
-  color = "#ECE8E2",
   className,
   isOpen = false,
+  theme = "darkTheme",
 }) => {
-  const [theme, setTheme] = useState("lightTheme");
-
-  useEffect(() => {
-    let observer: IntersectionObserver | null = null;
-    let footerObserver: IntersectionObserver | null = null;
-
-    const updateNavbarTheme = () => {
-      const sections = document.querySelectorAll("section");
-
-      sections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
-          const sectionType = section.getAttribute("data-section");
-          setTheme(sectionType as string);
-        }
-      });
-    };
-
-    updateNavbarTheme();
-
-    observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            const sectionType = entry.target.getAttribute("data-section");
-            setTheme(sectionType as string);
-          }
-        }
-      },
-      { rootMargin: "-50px 0px 0px 0px", threshold: 0.6 }
-    );
-
-    document
-      .querySelectorAll("section")
-      .forEach((section) => observer!.observe(section));
-
-    // Footer observer - footer has dark background so use darkTheme (light icon)
-    const footer = document.querySelector("footer");
-    if (footer) {
-      footerObserver = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              setTheme("darkTheme");
-            }
-          }
-        },
-        { rootMargin: "-50px 0px 0px 0px", threshold: 0.1 }
-      );
-      footerObserver.observe(footer);
-    }
-
-    return () => {
-      if (observer) observer.disconnect();
-      if (footerObserver) footerObserver.disconnect();
-    };
-  }, []);
-
-  // If menu is open, force color to #712538, otherwise keep theme logic
+  // If menu is open, force burgundy (#712538)
+  // Otherwise use theme: lightTheme = burgundy, darkTheme = cream
   const colorTheme = isOpen ? "#712538" : theme === "lightTheme" ? "#712538" : "#ECE8E2";
 
   return isOpen ? (

@@ -30,7 +30,6 @@
     "@sanity/cli": "^3.72.1",
     "@sanity/client": "^6.27.2",
     "@sanity/color-input": "^4.0.3",
-    "@sanity/core": "^2.36.2",
     "clsx": "^2.1.1"
   }
 }
