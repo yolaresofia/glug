@@ -38,12 +38,6 @@ export const settings = defineType({
           description: 'Logo de Michelin que aparece en el footer debajo del logo principal',
         }),
         defineField({
-          name: 'sustainableGastronomyLogo',
-          title: 'Logo Sustainable Gastronomy',
-          type: 'image',
-          description: 'Logo de Sustainable Gastronomy que aparece en el footer debajo del logo Michelin',
-        }),
-        defineField({
           name: 'secondColumnNav',
           title: 'Segunda Columna Navegación',
           type: 'blockContent',

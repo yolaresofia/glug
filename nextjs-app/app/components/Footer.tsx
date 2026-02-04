@@ -42,13 +42,6 @@ export default function Footer({ block }: FooterProps) {
             className="w-24 lg:w-1/3 h-auto pt-4"
           />
         )}
-        {(block?.mainNavigation as any)?.sustainableGastronomyLogo?.url && (
-          <img
-            src={(block?.mainNavigation as any)?.sustainableGastronomyLogo?.url as string}
-            alt="Sustainable Gastronomy Logo"
-            className="w-24 lg:w-1/3 h-auto pt-4"
-          />
-        )}
       </div>
 
       <div className="flex flex-col max-w-36">

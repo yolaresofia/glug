@@ -13,61 +13,6 @@
  */
 
 // Source: schema.json
-export type SanityImagePaletteSwatch = {
-  _type: "sanity.imagePaletteSwatch";
-  background?: string;
-  foreground?: string;
-  population?: number;
-  title?: string;
-};
-
-export type SanityImagePalette = {
-  _type: "sanity.imagePalette";
-  darkMuted?: SanityImagePaletteSwatch;
-  lightVibrant?: SanityImagePaletteSwatch;
-  darkVibrant?: SanityImagePaletteSwatch;
-  vibrant?: SanityImagePaletteSwatch;
-  dominant?: SanityImagePaletteSwatch;
-  lightMuted?: SanityImagePaletteSwatch;
-  muted?: SanityImagePaletteSwatch;
-};
-
-export type SanityImageDimensions = {
-  _type: "sanity.imageDimensions";
-  height?: number;
-  width?: number;
-  aspectRatio?: number;
-};
-
-export type SanityFileAsset = {
-  _id: string;
-  _type: "sanity.fileAsset";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
-  uploadId?: string;
-  path?: string;
-  url?: string;
-  source?: SanityAssetSourceData;
-};
-
-export type Geopoint = {
-  _type: "geopoint";
-  lat?: number;
-  lng?: number;
-  alt?: number;
-};
-
 export type FeatureCard = {
   _type: "featureCard";
   theme?: "darkTheme" | "lightTheme";
@@ -77,11 +22,11 @@ export type FeatureCard = {
   mobilePaddingB?: 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 36 | 40 | 44 | 48 | 52 | 56 | 60 | 64 | 72 | 80 | 96;
   textColor: Color;
   variant: string;
-  title: string;
-  description: string;
+  title: LocaleString;
+  description: LocaleString;
   price?: number;
   cta?: {
-    text: string;
+    text: LocaleString;
     link: Link;
     variant?: "buttonDark" | "buttonLight";
   };
@@ -92,6 +37,7 @@ export type FeatureCard = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
@@ -106,34 +52,8 @@ export type InfoCard = {
   mobilePaddingT?: 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 36 | 40 | 44 | 48 | 52 | 56 | 60 | 64 | 72 | 80 | 96;
   mobilePaddingB?: 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 36 | 40 | 44 | 48 | 52 | 56 | 60 | 64 | 72 | 80 | 96;
   theme?: "darkTheme" | "lightTheme";
-  title?: string;
-  text?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      linkType?: "href" | "page";
-      urlTitle?: string;
-      href?: string;
-      page?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "page";
-      };
-      openType?: "newTab" | "modal";
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
+  title?: LocaleString;
+  text?: LocaleBlockContent;
   textColor?: Color;
   image?: {
     asset?: {
@@ -142,11 +62,12 @@ export type InfoCard = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
   };
-  imageAltText?: string;
+  imageAltText?: LocaleString;
 };
 
 export type InfoWithCTA = {
@@ -156,63 +77,11 @@ export type InfoWithCTA = {
   paddingB?: 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 36 | 40 | 44 | 48 | 52 | 56 | 60 | 64 | 72 | 80 | 96;
   mobilePaddingT?: 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 36 | 40 | 44 | 48 | 52 | 56 | 60 | 64 | 72 | 80 | 96;
   mobilePaddingB?: 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 36 | 40 | 44 | 48 | 52 | 56 | 60 | 64 | 72 | 80 | 96;
-  firstColumnText: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      linkType?: "href" | "page";
-      urlTitle?: string;
-      href?: string;
-      page?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "page";
-      };
-      openType?: "newTab" | "modal";
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  secondColumnText: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      linkType?: "href" | "page";
-      urlTitle?: string;
-      href?: string;
-      page?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "page";
-      };
-      openType?: "newTab" | "modal";
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
+  firstColumnText: LocaleBlockContent;
+  secondColumnText: LocaleBlockContent;
   textColor?: Color;
   cta?: {
-    text: string;
+    text: LocaleString;
     link: Link;
     variant?: "buttonDark" | "buttonLight";
   };
@@ -220,9 +89,9 @@ export type InfoWithCTA = {
 
 export type CallToAction = {
   _type: "callToAction";
-  heading: string;
-  text?: string;
-  buttonText?: string;
+  heading: LocaleString;
+  text?: LocaleString;
+  buttonText?: LocaleString;
   link?: Link;
 };
 
@@ -236,6 +105,7 @@ export type MainHero = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
@@ -248,6 +118,7 @@ export type MainHero = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
@@ -262,33 +133,7 @@ export type ImageTextBlock = {
   paddingB?: 0 | 4 | 8 | 12 | 16 | 20 | 24 | 32 | 40 | 48 | 56 | 64 | 80 | 96;
   mobilePaddingT?: 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 36 | 40 | 44 | 48 | 52 | 56 | 60 | 64 | 72 | 80 | 96;
   mobilePaddingB?: 0 | 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 36 | 40 | 44 | 48 | 52 | 56 | 60 | 64 | 72 | 80 | 96;
-  text?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      linkType?: "href" | "page";
-      urlTitle?: string;
-      href?: string;
-      page?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "page";
-      };
-      openType?: "newTab" | "modal";
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
+  text?: LocaleBlockContent;
   textColor?: Color;
   images: Array<{
     asset?: {
@@ -297,6 +142,7 @@ export type ImageTextBlock = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
@@ -309,13 +155,21 @@ export type ImageTextBlock = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     _type: "image";
   };
   layout?: "leftImage" | "topText" | "leftTextImageIlustration" | "rightImageHoverText";
-  titleImage1?: string;
-  textImage1?: Array<{
+  titleImage1?: LocaleString;
+  textImage1?: LocaleBlockContent;
+  titleImage2?: LocaleString;
+  textImage2?: LocaleBlockContent;
+};
+
+export type LocaleBlockContent = {
+  _type: "localeBlockContent";
+  es?: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -342,8 +196,34 @@ export type ImageTextBlock = {
     _type: "block";
     _key: string;
   }>;
-  titleImage2?: string;
-  textImage2?: Array<{
+  ca?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      linkType?: "href" | "page";
+      urlTitle?: string;
+      href?: string;
+      page?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "page";
+      };
+      openType?: "newTab" | "modal";
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  en?: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -406,7 +286,7 @@ export type Settings = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title: string;
+  title: LocaleString;
   mainNavigation?: {
     lightLogo?: {
       asset?: {
@@ -415,6 +295,7 @@ export type Settings = {
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
+      media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       _type: "image";
@@ -426,6 +307,19 @@ export type Settings = {
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    michelinLogo?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       _type: "image";
@@ -448,7 +342,8 @@ export type Settings = {
     fourthColumnFooter?: Array<{
       _key: string;
     } & Link>;
-    fifthColumnFooter?: string;
+    fifthColumnFooter?: LocaleString;
+    workForUs?: LocaleString;
   };
   description?: Array<{
     children?: Array<{
@@ -475,6 +370,7 @@ export type Settings = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -489,10 +385,10 @@ export type Page = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name: string;
+  name: LocaleString;
   slug?: Slug;
-  heading: string;
-  subheading?: string;
+  heading: LocaleString;
+  subheading?: LocaleString;
   pageBackgroundColor?: Color;
   pageBuilder?: Array<{
     _key: string;
@@ -512,7 +408,7 @@ export type Page = {
 export type Link = {
   _type: "link";
   linkType?: "href" | "page";
-  urlTitle?: string;
+  urlTitle?: LocaleString;
   href?: string;
   page?: {
     _ref: string;
@@ -523,67 +419,11 @@ export type Link = {
   openType?: "newTab" | "modal";
 };
 
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
-};
-
-export type SanityImageAsset = {
-  _id: string;
-  _type: "sanity.imageAsset";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
-  uploadId?: string;
-  path?: string;
-  url?: string;
-  metadata?: SanityImageMetadata;
-  source?: SanityAssetSourceData;
-};
-
-export type SanityAssetSourceData = {
-  _type: "sanity.assetSourceData";
-  name?: string;
-  id?: string;
-  url?: string;
-};
-
-export type SanityImageMetadata = {
-  _type: "sanity.imageMetadata";
-  location?: Geopoint;
-  dimensions?: SanityImageDimensions;
-  palette?: SanityImagePalette;
-  lqip?: string;
-  blurHash?: string;
-  hasAlpha?: boolean;
-  isOpaque?: boolean;
+export type LocaleString = {
+  _type: "localeString";
+  es?: string;
+  ca?: string;
+  en?: string;
 };
 
 export type Color = {
@@ -740,13 +580,136 @@ export type SanityAssistSchemaTypeField = {
   } & SanityAssistInstruction>;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | FeatureCard | InfoCard | InfoWithCTA | CallToAction | MainHero | ImageTextBlock | BlockContent | Settings | Page | Link | Slug | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Color | RgbaColor | HsvaColor | HslaColor | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField;
+export type SanityImagePaletteSwatch = {
+  _type: "sanity.imagePaletteSwatch";
+  background?: string;
+  foreground?: string;
+  population?: number;
+  title?: string;
+};
+
+export type SanityImagePalette = {
+  _type: "sanity.imagePalette";
+  darkMuted?: SanityImagePaletteSwatch;
+  lightVibrant?: SanityImagePaletteSwatch;
+  darkVibrant?: SanityImagePaletteSwatch;
+  vibrant?: SanityImagePaletteSwatch;
+  dominant?: SanityImagePaletteSwatch;
+  lightMuted?: SanityImagePaletteSwatch;
+  muted?: SanityImagePaletteSwatch;
+};
+
+export type SanityImageDimensions = {
+  _type: "sanity.imageDimensions";
+  height?: number;
+  width?: number;
+  aspectRatio?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityFileAsset = {
+  _id: string;
+  _type: "sanity.fileAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+  source?: SanityAssetSourceData;
+};
+
+export type SanityImageAsset = {
+  _id: string;
+  _type: "sanity.imageAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+  metadata?: SanityImageMetadata;
+  source?: SanityAssetSourceData;
+};
+
+export type SanityImageMetadata = {
+  _type: "sanity.imageMetadata";
+  location?: Geopoint;
+  dimensions?: SanityImageDimensions;
+  palette?: SanityImagePalette;
+  lqip?: string;
+  blurHash?: string;
+  hasAlpha?: boolean;
+  isOpaque?: boolean;
+};
+
+export type Geopoint = {
+  _type: "geopoint";
+  lat?: number;
+  lng?: number;
+  alt?: number;
+};
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
+};
+
+export type SanityAssetSourceData = {
+  _type: "sanity.assetSourceData";
+  name?: string;
+  id?: string;
+  url?: string;
+};
+
+export type AllSanitySchemaTypes = FeatureCard | InfoCard | InfoWithCTA | CallToAction | MainHero | ImageTextBlock | LocaleBlockContent | BlockContent | Settings | Page | Link | LocaleString | Color | RgbaColor | HsvaColor | HslaColor | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
-// Query: *[_type == "settings"][0]{  "title": title[$locale],  mainNavigation {    ...,    "darkLogo": darkLogo.asset->,    "lightLogo": lightLogo.asset->,    "michelinLogo": michelinLogo.asset->,    "sustainableGastronomyLogo": sustainableGastronomyLogo.asset->,    navLinks[]{      ...,      "urlTitle": urlTitle[$locale],      page-> {        "name": name[$locale],        slug      }    }  },  footer {    secondColumnFooter {      address {        ...,        "urlTitle": urlTitle[$locale],        page-> {          "name": name[$locale],          slug        }      },      email,      phoneNumber    },    thirdColumnFooter {      instagram {        ...,        "urlTitle": urlTitle[$locale],        page-> {          "name": name[$locale],          slug        }      }    },    fourthColumnFooter[] {      ...,      "urlTitle": urlTitle[$locale],      page-> {        "name": name[$locale],        slug      }    },    "fifthColumnFooter": fifthColumnFooter[$locale],    "workForUs": workForUs[$locale]  },  description,  ogImage}
+// Query: *[_type == "settings"][0]{  "title": title[$locale],  mainNavigation {    ...,    "darkLogo": darkLogo.asset->,    "lightLogo": lightLogo.asset->,    "michelinLogo": michelinLogo.asset->,    navLinks[]{      ...,      "urlTitle": urlTitle[$locale],      page-> {        "name": name[$locale],        slug      }    }  },  footer {    secondColumnFooter {      address {        ...,        "urlTitle": urlTitle[$locale],        page-> {          "name": name[$locale],          slug        }      },      email,      phoneNumber    },    thirdColumnFooter {      instagram {        ...,        "urlTitle": urlTitle[$locale],        page-> {          "name": name[$locale],          slug        }      }    },    fourthColumnFooter[] {      ...,      "urlTitle": urlTitle[$locale],      page-> {        "name": name[$locale],        slug      }    },    "fifthColumnFooter": fifthColumnFooter[$locale],    "workForUs": workForUs[$locale]  },  description,  ogImage}
 export type SettingsQueryResult = {
-  title: Array<string>;
+  title: Array<{
+    _type: "localeString";
+    es?: string;
+    ca?: string;
+    en?: string;
+  }>;
   mainNavigation: {
     lightLogo: {
       _id: string;
@@ -792,32 +755,72 @@ export type SettingsQueryResult = {
       metadata?: SanityImageMetadata;
       source?: SanityAssetSourceData;
     } | null;
+    michelinLogo: {
+      _id: string;
+      _type: "sanity.imageAsset";
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      originalFilename?: string;
+      label?: string;
+      title?: string;
+      description?: string;
+      altText?: string;
+      sha1hash?: string;
+      extension?: string;
+      mimeType?: string;
+      size?: number;
+      assetId?: string;
+      uploadId?: string;
+      path?: string;
+      url?: string;
+      metadata?: SanityImageMetadata;
+      source?: SanityAssetSourceData;
+    } | null;
     secondColumnNav: BlockContent;
     thirdColumnNav: BlockContent;
     navLinks: Array<{
       _key: string;
       _type: "link";
       linkType?: "href" | "page";
-      urlTitle: Array<string> | null;
+      urlTitle: Array<{
+        _type: "localeString";
+        es?: string;
+        ca?: string;
+        en?: string;
+      }> | null;
       href?: string;
       page: {
-        name: Array<string>;
+        name: Array<{
+          _type: "localeString";
+          es?: string;
+          ca?: string;
+          en?: string;
+        }>;
         slug: Slug | null;
       } | null;
       openType?: "modal" | "newTab";
     }>;
-    michelinLogo: null;
-    sustainableGastronomyLogo: null;
   } | null;
   footer: {
     secondColumnFooter: {
       address: {
         _type: "link";
         linkType?: "href" | "page";
-        urlTitle: Array<string> | null;
+        urlTitle: Array<{
+          _type: "localeString";
+          es?: string;
+          ca?: string;
+          en?: string;
+        }> | null;
         href?: string;
         page: {
-          name: Array<string>;
+          name: Array<{
+            _type: "localeString";
+            es?: string;
+            ca?: string;
+            en?: string;
+          }>;
           slug: Slug | null;
         } | null;
         openType?: "modal" | "newTab";
@@ -829,10 +832,20 @@ export type SettingsQueryResult = {
       instagram: {
         _type: "link";
         linkType?: "href" | "page";
-        urlTitle: Array<string> | null;
+        urlTitle: Array<{
+          _type: "localeString";
+          es?: string;
+          ca?: string;
+          en?: string;
+        }> | null;
         href?: string;
         page: {
-          name: Array<string>;
+          name: Array<{
+            _type: "localeString";
+            es?: string;
+            ca?: string;
+            en?: string;
+          }>;
           slug: Slug | null;
         } | null;
         openType?: "modal" | "newTab";
@@ -842,16 +855,36 @@ export type SettingsQueryResult = {
       _key: string;
       _type: "link";
       linkType?: "href" | "page";
-      urlTitle: Array<string> | null;
+      urlTitle: Array<{
+        _type: "localeString";
+        es?: string;
+        ca?: string;
+        en?: string;
+      }> | null;
       href?: string;
       page: {
-        name: Array<string>;
+        name: Array<{
+          _type: "localeString";
+          es?: string;
+          ca?: string;
+          en?: string;
+        }>;
         slug: Slug | null;
       } | null;
       openType?: "modal" | "newTab";
     }> | null;
-    fifthColumnFooter: Array<string> | null;
-    workForUs: null;
+    fifthColumnFooter: Array<{
+      _type: "localeString";
+      es?: string;
+      ca?: string;
+      en?: string;
+    }> | null;
+    workForUs: Array<{
+      _type: "localeString";
+      es?: string;
+      ca?: string;
+      en?: string;
+    }> | null;
   } | null;
   description: Array<{
     children?: Array<{
@@ -878,6 +911,7 @@ export type SettingsQueryResult = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
     };
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -890,21 +924,56 @@ export type SettingsQueryResult = {
 export type GetPageQueryResult = {
   _id: string;
   _type: "page";
-  name: Array<string>;
+  name: Array<{
+    _type: "localeString";
+    es?: string;
+    ca?: string;
+    en?: string;
+  }>;
   slug: Slug | null;
-  heading: Array<string>;
-  subheading: Array<string> | null;
+  heading: Array<{
+    _type: "localeString";
+    es?: string;
+    ca?: string;
+    en?: string;
+  }>;
+  subheading: Array<{
+    _type: "localeString";
+    es?: string;
+    ca?: string;
+    en?: string;
+  }> | null;
   pageBackgroundColor: Color | null;
   pageBuilder: Array<{
     _key: string;
     _type: "callToAction";
-    heading: Array<string>;
-    text: Array<string> | null;
-    buttonText: Array<string> | null;
+    heading: Array<{
+      _type: "localeString";
+      es?: string;
+      ca?: string;
+      en?: string;
+    }>;
+    text: Array<{
+      _type: "localeString";
+      es?: string;
+      ca?: string;
+      en?: string;
+    }> | null;
+    buttonText: Array<{
+      _type: "localeString";
+      es?: string;
+      ca?: string;
+      en?: string;
+    }> | null;
     link: {
       _type: "link";
       linkType?: "href" | "page";
-      urlTitle: Array<string> | null;
+      urlTitle: Array<{
+        _type: "localeString";
+        es?: string;
+        ca?: string;
+        en?: string;
+      }> | null;
       href?: string;
       page: string | null;
       openType?: "modal" | "newTab";
@@ -920,11 +989,11 @@ export type GetPageQueryResult = {
     mobilePaddingB?: 0.5 | 0 | 1.5 | 1 | 10 | 11 | 12 | 14 | 16 | 2.5 | 2 | 20 | 24 | 28 | 3.5 | 3 | 32 | 36 | 4 | 40 | 44 | 48 | 5 | 52 | 56 | 6 | 60 | 64 | 7 | 72 | 8 | 80 | 9 | 96;
     textColor: Color;
     variant: string;
-    title: string;
-    description: string;
+    title: LocaleString;
+    description: LocaleString;
     price?: number;
     cta?: {
-      text: string;
+      text: LocaleString;
       link: Link;
       variant?: "buttonDark" | "buttonLight";
     };
@@ -935,6 +1004,7 @@ export type GetPageQueryResult = {
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
+      media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       _type: "image";
@@ -948,33 +1018,7 @@ export type GetPageQueryResult = {
     paddingB?: 0 | 12 | 16 | 20 | 24 | 32 | 4 | 40 | 48 | 56 | 64 | 8 | 80 | 96;
     mobilePaddingT?: 0.5 | 0 | 1.5 | 1 | 10 | 11 | 12 | 14 | 16 | 2.5 | 2 | 20 | 24 | 28 | 3.5 | 3 | 32 | 36 | 4 | 40 | 44 | 48 | 5 | 52 | 56 | 6 | 60 | 64 | 7 | 72 | 8 | 80 | 9 | 96;
     mobilePaddingB?: 0.5 | 0 | 1.5 | 1 | 10 | 11 | 12 | 14 | 16 | 2.5 | 2 | 20 | 24 | 28 | 3.5 | 3 | 32 | 36 | 4 | 40 | 44 | 48 | 5 | 52 | 56 | 6 | 60 | 64 | 7 | 72 | 8 | 80 | 9 | 96;
-    text?: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        linkType?: "href" | "page";
-        urlTitle?: string;
-        href?: string;
-        page?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "page";
-        };
-        openType?: "modal" | "newTab";
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }>;
+    text?: LocaleBlockContent;
     textColor?: Color;
     images: Array<{
       asset?: {
@@ -983,6 +1027,7 @@ export type GetPageQueryResult = {
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
+      media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       _type: "image";
@@ -995,67 +1040,16 @@ export type GetPageQueryResult = {
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
+      media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       _type: "image";
     };
     layout?: "leftImage" | "leftTextImageIlustration" | "rightImageHoverText" | "topText";
-    titleImage1?: string;
-    textImage1?: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        linkType?: "href" | "page";
-        urlTitle?: string;
-        href?: string;
-        page?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "page";
-        };
-        openType?: "modal" | "newTab";
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }>;
-    titleImage2?: string;
-    textImage2?: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        linkType?: "href" | "page";
-        urlTitle?: string;
-        href?: string;
-        page?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "page";
-        };
-        openType?: "modal" | "newTab";
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }>;
+    titleImage1?: LocaleString;
+    textImage1?: LocaleBlockContent;
+    titleImage2?: LocaleString;
+    textImage2?: LocaleBlockContent;
   } | {
     _key: string;
     _type: "infoCard";
@@ -1064,34 +1058,8 @@ export type GetPageQueryResult = {
     mobilePaddingT?: 0.5 | 0 | 1.5 | 1 | 10 | 11 | 12 | 14 | 16 | 2.5 | 2 | 20 | 24 | 28 | 3.5 | 3 | 32 | 36 | 4 | 40 | 44 | 48 | 5 | 52 | 56 | 6 | 60 | 64 | 7 | 72 | 8 | 80 | 9 | 96;
     mobilePaddingB?: 0.5 | 0 | 1.5 | 1 | 10 | 11 | 12 | 14 | 16 | 2.5 | 2 | 20 | 24 | 28 | 3.5 | 3 | 32 | 36 | 4 | 40 | 44 | 48 | 5 | 52 | 56 | 6 | 60 | 64 | 7 | 72 | 8 | 80 | 9 | 96;
     theme?: "darkTheme" | "lightTheme";
-    title?: string;
-    text?: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        linkType?: "href" | "page";
-        urlTitle?: string;
-        href?: string;
-        page?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "page";
-        };
-        openType?: "modal" | "newTab";
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }>;
+    title?: LocaleString;
+    text?: LocaleBlockContent;
     textColor?: Color;
     image?: {
       asset?: {
@@ -1100,11 +1068,12 @@ export type GetPageQueryResult = {
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
+      media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       _type: "image";
     };
-    imageAltText?: string;
+    imageAltText?: LocaleString;
   } | {
     _key: string;
     _type: "infoWithCTA";
@@ -1114,69 +1083,198 @@ export type GetPageQueryResult = {
     mobilePaddingT?: 0.5 | 0 | 1.5 | 1 | 10 | 11 | 12 | 14 | 16 | 2.5 | 2 | 20 | 24 | 28 | 3.5 | 3 | 32 | 36 | 4 | 40 | 44 | 48 | 5 | 52 | 56 | 6 | 60 | 64 | 7 | 72 | 8 | 80 | 9 | 96;
     mobilePaddingB?: 0.5 | 0 | 1.5 | 1 | 10 | 11 | 12 | 14 | 16 | 2.5 | 2 | 20 | 24 | 28 | 3.5 | 3 | 32 | 36 | 4 | 40 | 44 | 48 | 5 | 52 | 56 | 6 | 60 | 64 | 7 | 72 | 8 | 80 | 9 | 96;
     firstColumnText: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
+      _type: "localeBlockContent";
+      es?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          linkType?: "href" | "page";
+          urlTitle?: string;
+          href?: string;
+          page?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "page";
+          };
+          openType?: "modal" | "newTab";
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
         _key: string;
       }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        linkType?: "href" | "page";
-        urlTitle?: string;
-        href?: string;
-        page?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "page";
-        };
-        openType?: "modal" | "newTab";
-        _type: "link";
+      ca?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          linkType?: "href" | "page";
+          urlTitle?: string;
+          href?: string;
+          page?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "page";
+          };
+          openType?: "modal" | "newTab";
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
         _key: string;
       }>;
-      level?: number;
-      _type: "block";
-      _key: string;
+      en?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          linkType?: "href" | "page";
+          urlTitle?: string;
+          href?: string;
+          page?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "page";
+          };
+          openType?: "modal" | "newTab";
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }>;
     }>;
     secondColumnText: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
+      _type: "localeBlockContent";
+      es?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          linkType?: "href" | "page";
+          urlTitle?: string;
+          href?: string;
+          page?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "page";
+          };
+          openType?: "modal" | "newTab";
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
         _key: string;
       }>;
-      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        linkType?: "href" | "page";
-        urlTitle?: string;
-        href?: string;
-        page?: {
-          _ref: string;
-          _type: "reference";
-          _weak?: boolean;
-          [internalGroqTypeReferenceTo]?: "page";
-        };
-        openType?: "modal" | "newTab";
-        _type: "link";
+      ca?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          linkType?: "href" | "page";
+          urlTitle?: string;
+          href?: string;
+          page?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "page";
+          };
+          openType?: "modal" | "newTab";
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
         _key: string;
       }>;
-      level?: number;
-      _type: "block";
-      _key: string;
+      en?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          linkType?: "href" | "page";
+          urlTitle?: string;
+          href?: string;
+          page?: {
+            _ref: string;
+            _type: "reference";
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: "page";
+          };
+          openType?: "modal" | "newTab";
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }>;
     }>;
     textColor?: Color;
     cta: {
-      text: Array<string>;
+      text: Array<{
+        _type: "localeString";
+        es?: string;
+        ca?: string;
+        en?: string;
+      }>;
       link: {
         _type: "link";
         linkType?: "href" | "page";
-        urlTitle: Array<string> | null;
+        urlTitle: Array<{
+          _type: "localeString";
+          es?: string;
+          ca?: string;
+          en?: string;
+        }> | null;
         href?: string;
         page: {
-          name: Array<string>;
+          name: Array<{
+            _type: "localeString";
+            es?: string;
+            ca?: string;
+            en?: string;
+          }>;
           slug: Slug | null;
         } | null;
         openType?: "modal" | "newTab";
@@ -1194,6 +1292,7 @@ export type GetPageQueryResult = {
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
+      media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       _type: "image";
@@ -1206,6 +1305,7 @@ export type GetPageQueryResult = {
         _weak?: boolean;
         [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
       };
+      media?: unknown;
       hotspot?: SanityImageHotspot;
       crop?: SanityImageCrop;
       _type: "image";
@@ -1223,7 +1323,7 @@ export type PagesSlugsResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"settings\"][0]{\n  \"title\": title[$locale],\n  mainNavigation {\n    ...,\n    \"darkLogo\": darkLogo.asset->,\n    \"lightLogo\": lightLogo.asset->,\n    \"michelinLogo\": michelinLogo.asset->,\n    \"sustainableGastronomyLogo\": sustainableGastronomyLogo.asset->,\n    navLinks[]{\n      ...,\n      \"urlTitle\": urlTitle[$locale],\n      page-> {\n        \"name\": name[$locale],\n        slug\n      }\n    }\n  },\n  footer {\n    secondColumnFooter {\n      address {\n        ...,\n        \"urlTitle\": urlTitle[$locale],\n        page-> {\n          \"name\": name[$locale],\n          slug\n        }\n      },\n      email,\n      phoneNumber\n    },\n    thirdColumnFooter {\n      instagram {\n        ...,\n        \"urlTitle\": urlTitle[$locale],\n        page-> {\n          \"name\": name[$locale],\n          slug\n        }\n      }\n    },\n    fourthColumnFooter[] {\n      ...,\n      \"urlTitle\": urlTitle[$locale],\n      page-> {\n        \"name\": name[$locale],\n        slug\n      }\n    },\n    \"fifthColumnFooter\": fifthColumnFooter[$locale],\n    \"workForUs\": workForUs[$locale]\n  },\n  description,\n  ogImage\n}": SettingsQueryResult;
+    "*[_type == \"settings\"][0]{\n  \"title\": title[$locale],\n  mainNavigation {\n    ...,\n    \"darkLogo\": darkLogo.asset->,\n    \"lightLogo\": lightLogo.asset->,\n    \"michelinLogo\": michelinLogo.asset->,\n    navLinks[]{\n      ...,\n      \"urlTitle\": urlTitle[$locale],\n      page-> {\n        \"name\": name[$locale],\n        slug\n      }\n    }\n  },\n  footer {\n    secondColumnFooter {\n      address {\n        ...,\n        \"urlTitle\": urlTitle[$locale],\n        page-> {\n          \"name\": name[$locale],\n          slug\n        }\n      },\n      email,\n      phoneNumber\n    },\n    thirdColumnFooter {\n      instagram {\n        ...,\n        \"urlTitle\": urlTitle[$locale],\n        page-> {\n          \"name\": name[$locale],\n          slug\n        }\n      }\n    },\n    fourthColumnFooter[] {\n      ...,\n      \"urlTitle\": urlTitle[$locale],\n      page-> {\n        \"name\": name[$locale],\n        slug\n      }\n    },\n    \"fifthColumnFooter\": fifthColumnFooter[$locale],\n    \"workForUs\": workForUs[$locale]\n  },\n  description,\n  ogImage\n}": SettingsQueryResult;
     "\n  *[_type == 'page' && slug.current == $slug][0]{\n    _id,\n    _type,\n    \"name\": name[$locale],\n    slug,\n    \"heading\": heading[$locale],\n    \"subheading\": subheading[$locale],\n    pageBackgroundColor,\n    \"pageBuilder\": pageBuilder[]{\n      ...,\n      _type == \"callToAction\" => {\n        \"heading\": heading[$locale],\n        \"text\": text[$locale],\n        \"buttonText\": buttonText[$locale],\n        \n  link {\n      ...,\n      _type == \"link\" => {\n        \"urlTitle\": urlTitle[$locale],\n        \"page\": page->slug.current,\n        \"post\": post->slug.current\n      }\n  }\n,\n      },\n      _type == \"infoWithCTA\" => {\n        ...,\n        \"firstColumnText\": firstColumnText[$locale],\n        \"secondColumnText\": secondColumnText[$locale],\n        cta {\n          ...,\n          \"text\": text[$locale],\n          link {\n            ...,\n            \"urlTitle\": urlTitle[$locale],\n            page-> {\n              \"name\": name[$locale],\n              slug\n            }\n          }\n        }\n      },\n      _type == \"mainHero\" => {\n        ...\n      }\n    },\n  }\n": GetPageQueryResult;
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;
   }
