@@ -1,4 +1,7 @@
+"use client";
+
 import { Suspense } from "react";
+import { usePathname } from "next/navigation";
 
 import ResolvedLink from "@/app/components/ResolvedLink";
 import { CallToAction } from "@/sanity.types";
@@ -9,15 +12,20 @@ type CtaProps = {
 };
 
 export default function CTA({ block }: CtaProps) {
+  const pathname = usePathname();
+  const locale = (pathname?.split('/')[1] || 'es') as 'es' | 'ca' | 'en';
+
   return (
     <div className="container my-12">
       <div className="bg-gray-50 border border-gray-100 rounded-2xl max-w-3xl">
         <div className="p-12 flex flex-col gap-6">
           <div className="max-w-xl flex flex-col gap-3">
             <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">
-              {block.heading}
+              {block.heading?.[locale] || block.heading?.es}
             </h2>
-            <p className="text-lg leading-8 text-gray-600">{block.text}</p>
+            <p className="text-lg leading-8 text-gray-600">
+              {block.text?.[locale] || block.text?.es}
+            </p>
           </div>
 
           <Suspense fallback={null}>
@@ -26,7 +34,7 @@ export default function CTA({ block }: CtaProps) {
                 link={block.link}
                 className="rounded-full flex gap-2 mr-6 items-center bg-black hover:bg-red-500 focus:bg-cyan-500 py-3 px-6 text-white transition-colors duration-200"
               >
-                {block.buttonText}
+                {block.buttonText?.[locale] || block.buttonText?.es}
               </ResolvedLink>
             </div>
           </Suspense>
