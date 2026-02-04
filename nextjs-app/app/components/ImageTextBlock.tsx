@@ -1,20 +1,31 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+
+import { useState } from "react";
 import { ImageTextBlock as ImageTextBlockType } from "@/sanity.types";
 import { urlForImage } from "@/sanity/lib/utils";
 import { PortableText, PortableTextBlock } from "next-sanity";
-import { useState } from "react";
 
 type ImageTextBlockProps = {
   block: ImageTextBlockType;
   index: number;
 };
 
+// Note: The GROQ query already extracts locale-specific values,
+// so block.text, block.titleImage1, etc. are already resolved
+
 export default function ImageTextBlock({ block }: ImageTextBlockProps) {
   const layout = block.layout || "leftImage";
   const [hoveredImage, setHoveredImage] = useState<number | null>(null);
 
   if (!block) return null;
+
+  // Cast to any since GROQ query transforms types - values are already locale-resolved
+  const textContent = (block as any)?.text;
+  const titleImage1 = (block as any)?.titleImage1 || '';
+  const titleImage2 = (block as any)?.titleImage2 || '';
+  const textImage1Content = (block as any)?.textImage1;
+  const textImage2Content = (block as any)?.textImage2;
 
   return (
     <section
@@ -49,7 +60,7 @@ export default function ImageTextBlock({ block }: ImageTextBlockProps) {
               className="lg:rounded-xl rounded-3xl lg:w-1/2 w-full h-[700px] object-cover anim"
             />
             <div className="flex flex-col lg:w-1/2 w-full font-semibold anim">
-              <PortableText value={block?.text as PortableTextBlock[]} />
+              {textContent && <PortableText value={textContent as PortableTextBlock[]} />}
               <div className="relative w-full h-[700px] mt-8">
                 <img
                   src={urlForImage(block.images[0])?.url() as string}
@@ -66,7 +77,7 @@ export default function ImageTextBlock({ block }: ImageTextBlockProps) {
         <div className="flex flex-col lg:flex-row items-end gap-6 lg:px-20 px-5">
           <div className="lg:w-1/2">
             <div className="max-w-[580px] pb-20 font-semibold anim">
-              <PortableText value={block?.text as PortableTextBlock[]} />
+              {textContent && <PortableText value={textContent as PortableTextBlock[]} />}
             </div>
             <img
               src={urlForImage(block?.images[0])?.url() as string}
@@ -98,7 +109,7 @@ export default function ImageTextBlock({ block }: ImageTextBlockProps) {
                   alt="alttext-1"
                   className="lg:rounded-xl rounded-3xl w-full h-auto transition-opacity duration-300 anim"
                 />
-                {block?.textImage1 && (
+                {textImage1Content && (
                   <div
                     className={`absolute inset-0 hidden lg:flex flex-col items-start justify-start transition-opacity duration-300 rounded-xl ${
                       hoveredImage === 0
@@ -106,13 +117,13 @@ export default function ImageTextBlock({ block }: ImageTextBlockProps) {
                         : "opacity-0 bg-transparent"
                     }`}
                   >
-                    {block.titleImage1 && (
+                    {titleImage1 && (
                       <h3 className="text-4xl font-bold text-[#712538] mb-2 px-16 pt-24 pb-8">
-                        {block.titleImage1}
+                        {titleImage1}
                       </h3>
                     )}
                     <PortableText
-                      value={block?.textImage1 as PortableTextBlock[]}
+                      value={textImage1Content as PortableTextBlock[]}
                       components={{
                         block: ({ children }) => (
                           <p className="text-[#712538] font-medium text-lg px-16 pb-20">
@@ -125,14 +136,14 @@ export default function ImageTextBlock({ block }: ImageTextBlockProps) {
                 )}
               </div>
               <div className="lg:hidden text-left mt-16 mb-24">
-                {block.titleImage1 && (
+                {titleImage1 && (
                   <h3 className="text-3xl font-bold text-[#ECE8E2]">
-                    {block.titleImage1}
+                    {titleImage1}
                   </h3>
                 )}
-                {block?.textImage1 && (
+                {textImage1Content && (
                   <PortableText
-                    value={block?.textImage1 as PortableTextBlock[]}
+                    value={textImage1Content as PortableTextBlock[]}
                     components={{
                       block: ({ children }) => (
                         <p className="text-[#ECE8E2] text-lg mt-2 font-medium">
@@ -157,7 +168,7 @@ export default function ImageTextBlock({ block }: ImageTextBlockProps) {
                   alt="alttext-2"
                   className="lg:rounded-xl rounded-3xl w-full h-auto transition-opacity duration-300 anim"
                 />
-                {block?.textImage2 && (
+                {textImage2Content && (
                   <div
                     className={`absolute inset-0 hidden lg:flex flex-col items-start justify-start transition-opacity duration-300 rounded-xl ${
                       hoveredImage === 1
@@ -165,13 +176,13 @@ export default function ImageTextBlock({ block }: ImageTextBlockProps) {
                         : "opacity-0 bg-transparent"
                     }`}
                   >
-                    {block.titleImage2 && (
+                    {titleImage2 && (
                       <h3 className="text-4xl font-bold text-[#712538] mb-2 px-16 pt-24 pb-8">
-                        {block.titleImage2}
+                        {titleImage2}
                       </h3>
                     )}
                     <PortableText
-                      value={block?.textImage2 as PortableTextBlock[]}
+                      value={textImage2Content as PortableTextBlock[]}
                       components={{
                         block: ({ children }) => (
                           <p className="text-[#712538] text-lg px-16 pb-20">
@@ -184,14 +195,14 @@ export default function ImageTextBlock({ block }: ImageTextBlockProps) {
                 )}
               </div>
               <div className="lg:hidden text-left mt-16">
-                {block.titleImage2 && (
+                {titleImage2 && (
                   <h3 className="text-3xl font-bold text-[#ECE8E2]">
-                    {block.titleImage2}
+                    {titleImage2}
                   </h3>
                 )}
-                {block?.textImage2 && (
+                {textImage2Content && (
                   <PortableText
-                    value={block?.textImage2 as PortableTextBlock[]}
+                    value={textImage2Content as PortableTextBlock[]}
                     components={{
                       block: ({ children }) => (
                         <p className="text-[#ECE8E2] text-lg mt-2">

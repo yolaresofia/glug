@@ -4,6 +4,7 @@ import { SettingsQueryResult } from "@/sanity.types";
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { getLocaleString } from "@/app/lib/localeUtils";
 import ReservationModal from "./ReservationModal";
 
 type FooterProps = {
@@ -51,7 +52,7 @@ export default function Footer({ block }: FooterProps) {
           rel="noopener noreferrer"
           className="text-left h-full"
         >
-          {footer?.secondColumnFooter?.address?.urlTitle}
+          {getLocaleString(footer?.secondColumnFooter?.address?.urlTitle, locale)}
         </a>
         <a
           href={`mailto:${footer?.secondColumnFooter?.email}`}
@@ -73,7 +74,7 @@ export default function Footer({ block }: FooterProps) {
           rel="noopener noreferrer"
           className="h-full"
         >
-          {footer?.thirdColumnFooter?.instagram?.urlTitle}
+          {getLocaleString(footer?.thirdColumnFooter?.instagram?.urlTitle, locale)}
         </a>
       </div>
       <div className="flex flex-col text-left space-y-1">
@@ -81,7 +82,7 @@ export default function Footer({ block }: FooterProps) {
           {footer?.fourthColumnFooter?.map((link, index) => {
             if (!link || !link.linkType) return null;
             if (link.linkType === "href" && link.href && link.urlTitle) {
-              const urlTitle = typeof link.urlTitle === 'string' ? link.urlTitle : '';
+              const urlTitle = getLocaleString(link.urlTitle, locale);
               const isExternalLink = link.href.startsWith("http");
 
               if (urlTitle.toLowerCase() === "reservas") {
@@ -91,7 +92,7 @@ export default function Footer({ block }: FooterProps) {
                     onClick={() => handleOpenModal(link?.href as string)}
                     className="text-left"
                   >
-                    {link.urlTitle}
+                    {urlTitle}
                   </button>
                 );
               }
@@ -105,7 +106,7 @@ export default function Footer({ block }: FooterProps) {
                     rel="noopener noreferrer"
                     className="text-left"
                   >
-                    {link.urlTitle}
+                    {urlTitle}
                   </a>
                 );
               }
@@ -117,7 +118,7 @@ export default function Footer({ block }: FooterProps) {
                   href={`/${locale}${link.href}`}
                   className="text-left"
                 >
-                  {link.urlTitle}
+                  {urlTitle}
                 </Link>
               );
             }
@@ -126,7 +127,7 @@ export default function Footer({ block }: FooterProps) {
               link.page &&
               link.page.slug?.current
             ) {
-              const pageTitle = link.page.name || link.page?.name || "Página";
+              const pageTitle = getLocaleString(link.page.name, locale) || "Página";
               const path = `/${locale}/${link.page.slug.current}`;
 
               return (
@@ -146,10 +147,10 @@ export default function Footer({ block }: FooterProps) {
           rel="noopener noreferrer"
           className="h-full"
         >
-         {footer?.workForUs || '¿Quieres trabajar con nosotros?'}
+         {getLocaleString(footer?.workForUs, locale) || '¿Quieres trabajar con nosotros?'}
         </a>
       </div>
-      
+
       {isModalOpen && modalUrl && (
         <ReservationModal
           isOpen={isModalOpen}

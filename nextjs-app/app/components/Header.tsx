@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { SettingsQueryResult, Settings as SettingsType } from "@/sanity.types";
+import { SettingsQueryResult } from "@/sanity.types";
+import { getLocaleString } from "@/app/lib/localeUtils";
 
 import DynamicHeader from "./DynamicHeader";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -68,7 +69,7 @@ export default function Header({ block }: HeaderProps) {
               rel="noopener noreferrer"
               className="text-left h-full"
             >
-              {block?.footer?.secondColumnFooter?.address?.urlTitle}
+              {getLocaleString(block?.footer?.secondColumnFooter?.address?.urlTitle, locale)}
             </a>
           </div>
           <div className="text-left leading-tight flex flex-col pl-12">
@@ -92,10 +93,8 @@ export default function Header({ block }: HeaderProps) {
             if (!link) return null;
 
             const isExternalLink = link?.href?.startsWith("http");
-            // Handle urlTitle which might be a string or array due to type generation
-            const urlTitle = typeof link.urlTitle === 'string' ? link.urlTitle : (Array.isArray(link.urlTitle) ? link.urlTitle[0] : 'Untitled Link');
-            // Handle page name which might be a string or array
-            const pageName = typeof link.page?.name === 'string' ? link.page.name : (Array.isArray(link.page?.name) ? link.page.name[0] : 'Untitled Page');
+            const urlTitle = getLocaleString(link.urlTitle, locale) || 'Untitled Link';
+            const pageName = getLocaleString(link.page?.name, locale) || 'Untitled Page';
 
             if (link.linkType === "href" && link.openType === "modal") {
               return (

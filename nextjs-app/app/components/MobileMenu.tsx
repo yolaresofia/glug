@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { SettingsQueryResult } from "@/sanity.types";
+import { getLocaleString } from "@/app/lib/localeUtils";
 import MenuIcon from "./MenuIcon";
 import Image from "next/image";
-import { PortableText } from "next-sanity";
 import Link from "next/link";
 import LanguageSwitcher from "./LanguageSwitcher";
 
@@ -53,7 +53,7 @@ export default function MobileMenu({
 
   return (
     <div
-      className={`fixed inset-0 bg-[#F8F6F2] flex flex-col justify-between p-8 z-50 font-teachers 
+      className={`fixed inset-0 bg-[#F8F6F2] flex flex-col justify-between p-8 z-50 font-teachers
         transition-transform duration-300 ${isAnimating && !isExiting ? "translate-x-0" : "translate-x-full"}`}
     >
       <div className="flex justify-between items-start">
@@ -72,14 +72,12 @@ export default function MobileMenu({
         </button>
       </div>
 
-      <nav className="flex flex-col items-end space-y-8 text-[#541B1E] text-5xl"> 
+      <nav className="flex flex-col items-end space-y-8 text-[#541B1E] text-5xl">
         {block?.mainNavigation?.navLinks?.map((link, i) => {
           if (!link) return null;
 
-          // Handle urlTitle which might be a string or array due to type generation
-          const urlTitle = typeof link.urlTitle === 'string' ? link.urlTitle : (Array.isArray(link.urlTitle) ? link.urlTitle[0] : 'Untitled Link');
-          // Handle page name which might be a string or array
-          const pageName = typeof link.page?.name === 'string' ? link.page.name : (Array.isArray(link.page?.name) ? link.page.name[0] : 'Untitled Page');
+          const urlTitle = getLocaleString(link.urlTitle, locale) || 'Untitled Link';
+          const pageName = getLocaleString(link.page?.name, locale) || 'Untitled Page';
 
           if (link.linkType === "href" && link.openType === "modal") {
             return (
@@ -134,7 +132,7 @@ export default function MobileMenu({
             rel="noopener noreferrer"
             className="hover:underline"
           >
-            {block.footer.secondColumnFooter.address.urlTitle}
+            {getLocaleString(block.footer.secondColumnFooter.address.urlTitle, locale)}
           </a>
         )}
         {block?.footer?.secondColumnFooter?.email && (

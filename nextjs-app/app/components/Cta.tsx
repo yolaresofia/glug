@@ -1,7 +1,6 @@
 "use client";
 
 import { Suspense } from "react";
-import { usePathname } from "next/navigation";
 
 import ResolvedLink from "@/app/components/ResolvedLink";
 import { CallToAction } from "@/sanity.types";
@@ -11,9 +10,14 @@ type CtaProps = {
   index: number;
 };
 
+// Note: The GROQ query already extracts locale-specific values,
+// so block.heading, block.text, block.buttonText are already strings
+
 export default function CTA({ block }: CtaProps) {
-  const pathname = usePathname();
-  const locale = (pathname?.split('/')[1] || 'es') as 'es' | 'ca' | 'en';
+  // Cast to any since GROQ query transforms types - values are already strings
+  const heading = (block as any).heading || '';
+  const text = (block as any).text || '';
+  const buttonText = (block as any).buttonText || '';
 
   return (
     <div className="container my-12">
@@ -21,10 +25,10 @@ export default function CTA({ block }: CtaProps) {
         <div className="p-12 flex flex-col gap-6">
           <div className="max-w-xl flex flex-col gap-3">
             <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">
-              {block.heading?.[locale] || block.heading?.es}
+              {heading}
             </h2>
             <p className="text-lg leading-8 text-gray-600">
-              {block.text?.[locale] || block.text?.es}
+              {text}
             </p>
           </div>
 
@@ -34,7 +38,7 @@ export default function CTA({ block }: CtaProps) {
                 link={block.link}
                 className="rounded-full flex gap-2 mr-6 items-center bg-black hover:bg-red-500 focus:bg-cyan-500 py-3 px-6 text-white transition-colors duration-200"
               >
-                {block.buttonText?.[locale] || block.buttonText?.es}
+                {buttonText}
               </ResolvedLink>
             </div>
           </Suspense>

@@ -9,11 +9,19 @@ type FeatureCardProps = {
   index: number;
 };
 
+// Note: The GROQ query already extracts locale-specific values,
+// so block.title, block.description etc. are strings, not LocaleString objects
+
 export default function FeatureCard({ block }: FeatureCardProps) {
   if (!block) return null;
 
   const cta = block?.cta?.link;
   const isExternalLink = cta?.linkType === "href" && cta?.openType === "newTab";
+
+  // Cast to any since GROQ query transforms types - values are already strings
+  const title = (block as any)?.title || '';
+  const description = (block as any)?.description || '';
+  const buttonText = (block as any)?.cta?.text || '';
 
   return (
     <section
@@ -31,21 +39,21 @@ export default function FeatureCard({ block }: FeatureCardProps) {
         </div>
         <div className="lg:w-1/2">
           <h1 className="lg:text-[160px] text-7xl leading-[1] pb-16 anim">
-            {block?.title}
+            {title}
           </h1>
-          <p className="pb-16 anim">{block?.description}</p>
+          <p className="pb-16 anim">{description}</p>
           {cta &&
             (isExternalLink ? (
               <a href={cta.href} className="anim" target="_blank" rel="noopener noreferrer">
                 <Button
-                  buttonText={block?.cta?.text as string}
+                  buttonText={buttonText}
                   variant={block?.cta?.variant}
                 />
               </a>
             ) : (
               <Link className="anim" href={cta.href || "/"}>
                 <Button
-                  buttonText={block?.cta?.text as string}
+                  buttonText={buttonText}
                   variant={block?.cta?.variant}
                 />
               </Link>
