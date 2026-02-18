@@ -150,9 +150,9 @@ export default function DynamicHeader({ onThemeChange }: DynamicHeaderProps) {
           <Image
             src={currentLogo}
             alt="Logo"
-            width={160}
-            height={50}
-            className="rounded-xl md:pr-20 w-auto h-auto transition-opacity duration-300"
+            width={300}
+            height={100}
+            className="rounded-xl w-[85px] h-auto transition-opacity duration-300"
           />
         )}
       </Link>

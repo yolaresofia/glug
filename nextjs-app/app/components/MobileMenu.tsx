@@ -62,9 +62,9 @@ export default function MobileMenu({
             // @ts-ignore
             src={block?.mainNavigation?.darkLogo?.url as string}
             alt="Logo"
-            width={150}
-            height={50}
-            className="rounded-xl md:pr-20 w-auto h-auto transition-opacity duration-300"
+            width={300}
+            height={100}
+            className="rounded-xl w-[85px] h-auto transition-opacity duration-300"
           />
         </Link>
         <button onClick={handleClose} aria-label="Close menu">

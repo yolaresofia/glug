@@ -9,6 +9,11 @@ export default {
     { pattern: /^border-/ }, // Keep all `border-` classes
   ],
   theme: {
+    screens: {
+      sm: "640px",
+      md: "768px",
+      lg: "1280px",
+    },
     container: {
       center: true,
       padding: "2rem",
