@@ -27,8 +27,8 @@ export default function Footer({ block }: FooterProps) {
   const footer = block.footer;
 
   return (
-    <footer className="text-[#ECE8E2] pb-40 pt-8 lg:pt-52 lg:px-20 px-8 bg-[#712538] z-50 w-full font-teachers border-t border-[#ECE8E2] lg:h-screen md:h-auto h-screen flex flex-col justify-center lg:justify-start">
-      <div className="grid grid-cols-1 gap-8 [align-items:flex-start] text-[14px] justify-start lg:hidden">
+    <footer className="text-[#ECE8E2] pb-40 pt-8 lg:pt-52 bg-[#712538] z-50 w-full font-teachers border-t border-[#ECE8E2] lg:h-screen md:h-auto h-screen flex flex-col justify-center lg:justify-start">
+      <div className="grid grid-cols-1 gap-8 [align-items:flex-start] text-[14px] justify-start lg:hidden px-8">
         <div className="text-left">
           <a
             href={footer?.thirdColumnFooter?.instagram?.href}
@@ -120,7 +120,7 @@ export default function Footer({ block }: FooterProps) {
       </div>
 
       {/* Desktop layout - mirrors header alignment */}
-      <div className="hidden lg:flex items-start text-[14px] justify-between">
+      <div className="hidden lg:flex items-start text-[14px] justify-between px-20">
         {/* Invisible spacer matching header logo width */}
         <div className="w-[85px] shrink-0" />
         <div className="flex w-1/2">
@@ -209,9 +209,10 @@ export default function Footer({ block }: FooterProps) {
           </a>
         </nav>
       </div>
-      <div className="flex flex-col items-start w-full pt-12 lg:flex-row lg:items-center lg:pl-[133px] text-[14px]">
+      <div className="border-t border-t-[#ECE8E2] w-screen mt-24 lg:block hidden"></div>
+      <div className="flex flex-col items-start w-full md:pt-24 pt-12 lg:flex-row lg:items-center lg:pl-[213px] lg:pr-20 text-[14px] px-8">
         <h3 className="lg:w-1/3">Premios y reconocimientos</h3>
-        <div className="flex flex-row justify-start gap-6 lg:justify-around lg:gap-0 w-full lg:px-0 pt-6 lg:pt-0">
+        <div className="flex flex-row justify-start gap-4 lg:gap-20 w-full lg:px-0 pt-2 lg:pt-0">
           {(block?.mainNavigation as any)?.michelinLogo?.url && (
             <img
               src={(block?.mainNavigation as any)?.michelinLogo?.url as string}
